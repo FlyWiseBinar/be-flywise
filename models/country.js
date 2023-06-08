@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Country.init({
+    countryCode : DataTypes.STRING,
     name: DataTypes.STRING,
     continent: DataTypes.STRING
   }, {
