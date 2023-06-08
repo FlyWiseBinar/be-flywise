@@ -3,6 +3,7 @@ const loginService = require("./loginService")
 const sendOtpResetPasswordService = require("./sendOtpResetPasswordService")
 const resendOtpResetPasswordService = require("./resendOtpResetPasswordService")
 const verifyOtpResetPasswordService = require("./verifyOtpResetPasswordService")
+const updateUserService = require("./updateUserService")
 const resetPasswordService = require("./resetPasswordService")
 
 module.exports = {
@@ -11,5 +12,6 @@ module.exports = {
 	sendOtpResetPasswordService,
 	resendOtpResetPasswordService,
 	verifyOtpResetPasswordService,
+	updateUserService,
 	resetPasswordService
 }
