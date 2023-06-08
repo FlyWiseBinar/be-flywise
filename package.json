@@ -1,0 +1,37 @@
+{
+	"name": "api-flywise",
+	"version": "1.0.0",
+	"description": "api final project binar academy",
+	"main": "index.js",
+	"scripts": {
+		"dev": "nodemon index.js",
+		"start": "node index.js",
+		"db:create": "npx sequelize-cli db:create",
+		"db:migrate": "npx sequelize-cli db:migrate",
+		"db:migrate:fresh": "npx sequelize-cli db:migrate:undo:all",
+		"db:seed": "npx sequelize-cli db:seed:all",
+		"db:seed:fresh": "npx sequelize-cli db:seed:undo:all",
+		"db:migrate:seed": "npm run db:migrate && npm run db:seed",
+		"db:migrate:fresh:seed": "npm run db:migrate:fresh && npm run db:migrate:seed"
+	},
+	"author": "Backend Developer C4",
+	"license": "ISC",
+	"dependencies": {
+		"bcrypt": "^5.1.0",
+		"cors": "^2.8.5",
+		"dotenv": "^16.1.4",
+		"express": "^4.18.2",
+		"express-validator": "^7.0.1",
+		"jsonwebtoken": "^9.0.0",
+		"nodemailer": "^6.9.3",
+		"otp-generator": "^4.0.1",
+		"pg": "^8.11.0",
+		"pg-hstore": "^2.3.4",
+		"sequelize": "^6.32.0",
+		"sequelize-cli": "^6.6.1"
+	},
+	"devDependencies": {
+		"eslint": "^8.42.0",
+		"eslint-plugin-react": "^7.32.2"
+	}
+}
