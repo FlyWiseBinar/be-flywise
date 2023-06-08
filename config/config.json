@@ -1,0 +1,10 @@
+{
+	"development": {
+		"username": "postgres",
+		"password": "wesmangan",
+		"database": "coba-binar-fp",
+		"host": "127.0.0.1",
+		"dialect": "postgres",
+		"timezone": "+07:00"
+	}
+}
