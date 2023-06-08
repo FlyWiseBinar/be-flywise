@@ -1,12 +1,11 @@
 const {body} = require("express-validator")
+const {User} = require("../models")
 
 const emailValidator = async (email) => {
 	const user = await User.findOne({
 		where: {email}
-	});
-	if(!user) {
-		return Promise.reject('Email not found');
-	}
+	})
+	if(!user) return Promise.reject("Email not found")
 }
 
 const loginValidation = [
