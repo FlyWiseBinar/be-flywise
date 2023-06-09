@@ -20,7 +20,12 @@ module.exports = class checkoutController {
     }
 
     static async makeOrder (req, res) {
-        const { userId, price, schedule, passenger } = req.body
+        const { price, schedule, passenger } = req.body
+
+        const authHeader = req.header("Authorization");
+        const tokenUser = authHeader.split(" ")[1];
+        const decoded = jwt.verify(tokenUser, process.env.JWT_SECRET_TOKEN);
+        const userId = decoded.userId;
 
         const order = await checkOutService.createOrder(userId, price, schedule, passenger)
 
