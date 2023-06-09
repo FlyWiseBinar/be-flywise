@@ -1,0 +1,107 @@
+[
+  {
+    "airlineCode": "QZ",
+    "airlineName": "Indonesia AirAsia",
+    "logo": "https://images.kiwi.com/airlines/64/QZ.png"
+  },
+  {
+    "airlineCode": "GA",
+    "airlineName": "Garuda Indonesia",
+    "logo": "https://images.kiwi.com/airlines/64/GA.png"
+  },
+  {
+    "airlineCode": "ID",
+    "airlineName": "Batik Air",
+    "logo": "https://images.kiwi.com/airlines/64/ID.png"
+  },
+  {
+    "airlineCode": "IW",
+    "airlineName": "Wings Air",
+    "logo": "https://images.kiwi.com/airlines/64/IW.png"
+  },
+  {
+    "airlineCode": "JT",
+    "airlineName": "Lion Air",
+    "logo": "https://images.kiwi.com/airlines/64/JT.png"
+  },
+  {
+    "airlineCode": "SJ",
+    "airlineName": "Sriwijaya Air",
+    "logo": "https://images.kiwi.com/airlines/64/SJ.png"
+  },
+  {
+    "airlineCode": "QG",
+    "airlineName": "Citilink",
+    "logo": "https://images.kiwi.com/airlines/64/QG.png"
+  },
+  {
+    "airlineCode": "IN",
+    "airlineName": "Nam Air",
+    "logo": "https://images.kiwi.com/airlines/64/IN.png"
+  },
+  {
+    "airlineCode": "B6",
+    "airlineName": "JetBlue Airways",
+    "logo": "https://images.kiwi.com/airlines/64/B6.png"
+  },
+  {
+    "airlineCode": "H9",
+    "airlineName": "Himalaya Airlines",
+    "logo": "https://images.kiwi.com/airlines/64/H9.png"
+  },
+  {
+    "airlineCode": "MH",
+    "airlineName": "Malaysia Airlines",
+    "logo": "https://images.kiwi.com/airlines/64/MH.png"
+  },
+  {
+    "airlineCode": "AF",
+    "airlineName": "Air France",
+    "logo": "https://images.kiwi.com/airlines/64/AF.png"
+  },
+  {
+    "airlineCode": "AA",
+    "airlineName": "American Airlines",
+    "logo": "https://images.kiwi.com/airlines/64/AA.png"
+  },
+  {
+    "airlineCode": "NH",
+    "airlineName": "All Nippon Airways",
+    "logo": "https://images.kiwi.com/airlines/64/NH.png"
+  },
+  {
+    "airlineCode": "AY",
+    "airlineName": "Finnair",
+    "logo": "https://images.kiwi.com/airlines/64/AY.png"
+  },
+  {
+    "airlineCode": "BX",
+    "airlineName": "Air Busan",
+    "logo": "https://images.kiwi.com/airlines/64/BX.png"
+  },
+  {
+    "airlineCode": "BA",
+    "airlineName": "British Airways",
+    "logo": "https://images.kiwi.com/airlines/64/BA.png"
+  },
+  {
+    "airlineCode": "SQ",
+    "airlineName": "Singapore Airlines",
+    "logo": "https://images.kiwi.com/airlines/64/SQ.png"
+  },
+  {
+    "airlineCode": "JL",
+    "airlineName": "Japan Airlines",
+    "logo": "https://images.kiwi.com/airlines/64/JL.png"
+  },
+  {
+    "airlineCode": "EK",
+    "airlineName": "Emirates",
+    "logo": "https://images.kiwi.com/airlines/64/EK.png"
+  },
+  {
+    "airlineCode": "CM",
+    "airlineName": "Copa Airlines",
+    "logo": "https://images.kiwi.com/airlines/64/CM.png"
+  }
+]
