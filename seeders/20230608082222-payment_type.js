@@ -21,10 +21,10 @@ module.exports = {
       },
     ];
 
-    await queryInterface.bulkInsert("Payments", data, {});
+    await queryInterface.bulkInsert("Payment_Types", data, {});
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("Payments", null, {});
+    await queryInterface.bulkDelete("Payment_Types", null, {});
   },
 };

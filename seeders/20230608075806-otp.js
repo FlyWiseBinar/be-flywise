@@ -5,7 +5,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     const otp = [
       {
-        id_user: 1,
+        userId: 1,
         otp: "678032",
         expiredAt: new Date(),
         createdAt: new Date(),
