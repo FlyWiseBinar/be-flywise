@@ -9,6 +9,7 @@ const otpSendService = require("./otpSendService")
 const otpResendService = require("./otpResendService")
 const otpVerifyService = require("./otpVerifyService")
 const registerService = require("./registerService")
+const whoamiService = require("./whoamiService")
 
 module.exports = {
 	checkActiveUserService,
@@ -21,5 +22,6 @@ module.exports = {
 	otpSendService,
 	otpResendService,
 	otpVerifyService,
-	registerService
+	registerService,
+	whoamiService
 }
