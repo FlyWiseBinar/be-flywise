@@ -8,12 +8,9 @@ module.exports = class profileController {
 		const authheader = req.header("Authorization")
 		const tokenUser = authheader && authheader.split(" ")[1]
 		const decoded = jwt.decode(tokenUser, process.env.JWT_SECRET_KEY)
-
 		const isExistUser = await User.findOne({
 			where: {email}
 		})
-		console.log(isExistUser)
-
 		const isEmailChange = decoded.email != email
 		if(isExistUser && isEmailChange) {
 			return res.status(400).json({
@@ -25,7 +22,7 @@ module.exports = class profileController {
 				]
 			})
 		}
-		const userUpdate = await updateUserService(req.body, tokenUser)
+		const userUpdate = await updateUserService(req.body, decoded.userId)
 		if(!userUpdate) {
 			return res.status(500).json({
 				status: false,
