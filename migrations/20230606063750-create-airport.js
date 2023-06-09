@@ -9,8 +9,8 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
-			countryId: {
-				type: Sequelize.INTEGER
+			countryCode: {
+				type: Sequelize.STRING
 			},
 			airportCode: {
 				type: Sequelize.STRING
