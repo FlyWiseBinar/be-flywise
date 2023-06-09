@@ -1,9 +1,9 @@
 {
 	"development": {
 		"username": "postgres",
-		"password": "wesmangan",
-		"database": "coba-binar-fp",
-		"host": "127.0.0.1",
+		"password": "wayan280402",
+		"database": "flywise-db",
+		"host": "34.143.215.125",
 		"dialect": "postgres",
 		"timezone": "+07:00"
 	}
