@@ -12,7 +12,7 @@ const baseUrl = process.env.BASE_URL || `http://localhost:${port}`
 
 app.use(express.static("public"))
 app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({ extended: false }))
 app.use(cors())
 
 app.use(router)
