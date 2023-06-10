@@ -1,47 +1,118 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 const { Detail_Order, Order, Schedule, User, Plane, Airport, Airline, Class } = require("../../models")
-const jwt = require("jsonwebtoken")
 
-const historyOrderService = async (req, res) => {
-    // const authheader = req.header("Authorization")
-    // const tokenUser = authheader && authheader.split(" ")[1]
-    // const decoded = jwt.decode(tokenUser, process.env.JWT_SECRET_KEY)
-    // const userId = decoded.userId
-    const data = Order.findAll({
+const historyOrderService = async (userId) => {
+    const data = Detail_Order.findAll({
+        attributes: { exclude: ["createdAt", "updatedAt"] },
         include: [
-            Detail_Order,
-            // {
-            //     model: Schedule,
-            //     as: "schedule",
-            //     include: [
-            //         {
-            //             model: Plane,
-            //             as: "plane",
-            //             include: [
-            //                 {
-            //                     model: Airline,
-            //                     as: "airline",
-            //                 },
-            //                 {
-            //                     model: Class,
-            //                     as: "class",
-            //                 },
-            //             ]
-            //         },
-            //         {
-            //             model: Airport,
-            //             as: "originAirport",
-            //         },
-            //         {
-            //             model: Airport,
-            //             as: "destinationAirport",
-            //         }
-            //     ]
-            // },
+            {
+                model: Order,
+                as: "order",
+                where: { userId: userId },
+                attributes: { exclude: ["createdAt", "updatedAt"] },
+                include: [
+                    {
+                        model: User,
+                        as: "user",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+
+                    }
+                ]
+            },
+            {
+                model: Schedule,
+                as: "schedule",
+                attributes: { exclude: ["createdAt", "updatedAt"] },
+                include: [
+                    {
+                        model: Plane,
+                        as: "plane",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+                        include: [
+                            {
+                                model: Airline,
+                                as: "airline",
+                                attributes: { exclude: ["createdAt", "updatedAt"] },
+                            },
+                            {
+                                model: Class,
+                                as: "class",
+                                attributes: { exclude: ["createdAt", "updatedAt"] },
+                            },
+                        ]
+                    },
+                    {
+                        model: Airport,
+                        as: "originAirport",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+                    },
+                    {
+                        model: Airport,
+                        as: "destinationAirport",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+                    }
+                ]
+            },
         ]
     })
     return data
 }
 
-module.exports = historyOrderService
+const searchHistoryService = async (orderId) => {
+    const data = Detail_Order.findOne({
+        attributes: { exclude: ["createdAt", "updatedAt"] },
+        where: { orderId: orderId },
+        include: [
+            {
+                model: Order,
+                as: "order",
+
+                attributes: { exclude: ["createdAt", "updatedAt"] },
+                include: [
+                    {
+                        model: User,
+                        as: "user",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+
+                    }
+                ]
+            },
+            {
+                model: Schedule,
+                as: "schedule",
+                attributes: { exclude: ["createdAt", "updatedAt"] },
+                include: [
+                    {
+                        model: Plane,
+                        as: "plane",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+                        include: [
+                            {
+                                model: Airline,
+                                as: "airline",
+                                attributes: { exclude: ["createdAt", "updatedAt"] },
+                            },
+                            {
+                                model: Class,
+                                as: "class",
+                                attributes: { exclude: ["createdAt", "updatedAt"] },
+                            },
+                        ]
+                    },
+                    {
+                        model: Airport,
+                        as: "originAirport",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+                    },
+                    {
+                        model: Airport,
+                        as: "destinationAirport",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+                    }
+                ]
+            },
+        ]
+    })
+    return data
+}
+
+module.exports = { historyOrderService, searchHistoryService }
