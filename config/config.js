@@ -9,6 +9,7 @@ module.exports = {
 		dialect: "postgres",
 		timezone: "+07:00"
 	},
+	
 	production: {
 		username: process.env.DB_USERNAME_PROD,
 		password: process.env.DB_PASSWORD_PROD,
