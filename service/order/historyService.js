@@ -57,7 +57,7 @@ const historyOrderService = async (userId) => {
     return data
 }
 
-const searchHistoryService = async (orderId) => {
+const searchHistoryService = async (orderId, userId) => {
     const data = Detail_Order.findOne({
         attributes: { exclude: ["createdAt", "updatedAt"] },
         where: { orderId: orderId },
@@ -65,7 +65,7 @@ const searchHistoryService = async (orderId) => {
             {
                 model: Order,
                 as: "order",
-
+                where: { userId: userId },
                 attributes: { exclude: ["createdAt", "updatedAt"] },
                 include: [
                     {
@@ -114,5 +114,62 @@ const searchHistoryService = async (orderId) => {
     })
     return data
 }
+const filterHistoryService = async (date, userId) => {
+    const data = Detail_Order.findOne({
+        attributes: { exclude: ["createdAt", "updatedAt"] },
+        include: [
+            {
+                model: Order,
+                as: "order",
+                where: { userId: userId },
+                attributes: { exclude: ["createdAt", "updatedAt"] },
+                include: [
+                    {
+                        model: User,
+                        as: "user",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
 
-module.exports = { historyOrderService, searchHistoryService }
+                    }
+                ]
+            },
+            {
+                model: Schedule,
+                as: "schedule",
+                where: { departureDate: date },
+                attributes: { exclude: ["createdAt", "updatedAt"] },
+                include: [
+                    {
+                        model: Plane,
+                        as: "plane",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+                        include: [
+                            {
+                                model: Airline,
+                                as: "airline",
+                                attributes: { exclude: ["createdAt", "updatedAt"] },
+                            },
+                            {
+                                model: Class,
+                                as: "class",
+                                attributes: { exclude: ["createdAt", "updatedAt"] },
+                            },
+                        ]
+                    },
+                    {
+                        model: Airport,
+                        as: "originAirport",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+                    },
+                    {
+                        model: Airport,
+                        as: "destinationAirport",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+                    }
+                ]
+            },
+        ]
+    })
+    return data
+}
+
+module.exports = { historyOrderService, searchHistoryService, filterHistoryService }
