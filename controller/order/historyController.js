@@ -6,14 +6,17 @@ module.exports = class historyController {
         const authheader = req.header("Authorization")
         const tokenUser = authheader && authheader.split(" ")[1]
         const decoded = jwt.decode(tokenUser, process.env.JWT_SECRET_KEY)
-        try {
-            const userId = decoded.userId
-            const orders = await historyOrderService(userId)
-            res.status(200).json(orders)
-        } catch (error) {
-            console.log(error)
-            res.status(500).json({ message: error.message })
+        const userId = decoded.userId
+        const orders = await historyOrderService(userId)
+        if (orders.length == 0) {
+            return res.status(400).json({
+                status: false,
+                message: "Order not found"
+            })
         }
+        res.status(200).json({
+            orders
+        })
     }
     static async searchHistoryOrders(req, res) {
         const authheader = req.header("Authorization")
