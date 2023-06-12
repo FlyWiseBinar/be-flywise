@@ -8,7 +8,6 @@ const { authMiddleware } = require("../middleware")
 
 router.get("/auth/whoami", authMiddleware, whoAmIController.whoAmI)
 
-router.get("/order/schedule-detail", authMiddleware, checkoutController.scheduleDetail)
-router.post("/order/create-order", authMiddleware, checkoutController.makeOrder)
+router.post("/order/checkout", authMiddleware, checkoutController.makeOrder)
 
 module.exports = router
