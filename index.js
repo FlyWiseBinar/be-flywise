@@ -4,10 +4,9 @@ require("dotenv").config()
 const router = require("./routes")
 
 
-
 const app = express()
-const port = process.env.PORT || 5000
-// console.log('port', process.env.PORT);
+const port = process.env.RUN_PORT || 5000
+// console.log('port', process.env.RUN_PORT);
 const baseUrl = process.env.BASE_URL || `http://localhost:${port}`
 
 app.use(express.static("public"))
