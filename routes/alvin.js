@@ -1,9 +1,9 @@
-const {Router} = require("express")
+const { Router } = require("express")
 const router = Router()
 
-const {guestMiddleware, activeUserMiddleware, authMiddleware} = require("../middleware")
-const {loginController, resetPasswordController, profileController} = require("../controller/auth")
-const {loginValidation, resetPasswordValidation, updateProfileValidation, handleValidation} = require("../validation")
+const { guestMiddleware, activeUserMiddleware, authMiddleware } = require("../middleware")
+const { loginController, resetPasswordController, profileController } = require("../controller/auth")
+const { loginValidation, resetPasswordValidation, updateProfileValidation, handleValidation } = require("../validation")
 
 router.post("/auth/login", guestMiddleware, loginValidation, handleValidation, activeUserMiddleware, loginController.login)
 router.post("/auth/reset-password/send-otp", guestMiddleware, activeUserMiddleware, resetPasswordController.sendOtp)

@@ -8,6 +8,7 @@ module.exports = {
         payment_code: "6RI46MQ2RY",
         orderId: 1,
         paymentTypeId: 1,
+        status: true,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

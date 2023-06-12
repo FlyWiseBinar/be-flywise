@@ -8,6 +8,4 @@ const whoamiService = async (id) => {
   return data;
 };
 
-module.exports = {
-  whoamiService,
-};
+module.exports = whoamiService

@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 		 * The `models/index` file will call this method automatically.
 		 */
 		static associate(models) {
-			Airport.belongsTo(models.Country, {as: "country", foreignKey: "countryId"})
+			Airport.belongsTo(models.Country, { as: "country", foreignKey: "countryCode" })
 		}
 	}
 	Airport.init({

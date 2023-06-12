@@ -1,5 +1,5 @@
-const whoamiService = require("./whoamiService");
+const checkOutService = require("./checkOutService")
 
 module.exports = {
-  whoamiService,
-};
+  checkOutService,
+}
