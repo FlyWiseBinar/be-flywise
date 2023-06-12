@@ -1,6 +1,5 @@
 const { loginService } = require("../../service/auth")
 const jwt = require("jsonwebtoken")
-require('dotenv').config()
 
 module.exports = class loginController {
 	static async login(req, res) {
