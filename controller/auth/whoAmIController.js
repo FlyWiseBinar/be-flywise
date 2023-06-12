@@ -7,7 +7,7 @@ module.exports = class whoAmIController {
 
     const decoded = jwt.verify(tokenUser, process.env.JWT_SECRET_TOKEN);
     const userId = decoded.userId;
-    const data = whoamiService.whoamiService(userId);
+    const data = whoamiService(userId);
 
     res.status(200).json({
       status: true,
