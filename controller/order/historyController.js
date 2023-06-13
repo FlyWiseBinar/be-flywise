@@ -22,9 +22,9 @@ module.exports = class historyController {
         const authheader = req.header("Authorization")
         const tokenUser = authheader && authheader.split(" ")[1]
         const decoded = jwt.decode(tokenUser, process.env.JWT_SECRET_KEY)
-        const orderId = req.query.orderId
+        const orderCode = req.query.orderCode
         const userId = decoded.userId
-        const orders = await searchHistoryService(orderId, userId)
+        const orders = await searchHistoryService(orderCode, userId)
         if (!orders) {
             return res.status(400).json({
                 status: false,

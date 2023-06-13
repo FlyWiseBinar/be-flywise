@@ -1,4 +1,4 @@
-const { Detail_Order, Order, Schedule, User, Plane, Airport, Airline, Class } = require("../../models")
+const { Detail_Order, Order, Schedule, User, Plane, Airport, Airline, Class, Country } = require("../../models")
 
 const historyOrderService = async (userId) => {
     const data = Detail_Order.findAll({
@@ -44,11 +44,27 @@ const historyOrderService = async (userId) => {
                         model: Airport,
                         as: "originAirport",
                         attributes: { exclude: ["createdAt", "updatedAt"] },
+                        include: [
+                            {
+                                model: Country,
+                                as: "country",
+                                attributes: { exclude: ["createdAt", "updatedAt"] }
+
+                            }
+                        ]
                     },
                     {
                         model: Airport,
                         as: "destinationAirport",
                         attributes: { exclude: ["createdAt", "updatedAt"] },
+                        include: [
+                            {
+                                model: Country,
+                                as: "country",
+                                attributes: { exclude: ["createdAt", "updatedAt"] }
+
+                            }
+                        ]
                     }
                 ]
             },
@@ -57,15 +73,14 @@ const historyOrderService = async (userId) => {
     return data
 }
 
-const searchHistoryService = async (orderId, userId) => {
+const searchHistoryService = async (orderCode, userId) => {
     const data = Detail_Order.findOne({
         attributes: { exclude: ["createdAt", "updatedAt"] },
-        where: { orderId: orderId },
         include: [
             {
                 model: Order,
                 as: "order",
-                where: { userId: userId },
+                where: { userId: userId, orderCode: orderCode },
                 attributes: { exclude: ["createdAt", "updatedAt"] },
                 include: [
                     {
@@ -102,11 +117,27 @@ const searchHistoryService = async (orderId, userId) => {
                         model: Airport,
                         as: "originAirport",
                         attributes: { exclude: ["createdAt", "updatedAt"] },
+                        include: [
+                            {
+                                model: Country,
+                                as: "country",
+                                attributes: { exclude: ["createdAt", "updatedAt"] }
+
+                            }
+                        ]
                     },
                     {
                         model: Airport,
                         as: "destinationAirport",
                         attributes: { exclude: ["createdAt", "updatedAt"] },
+                        include: [
+                            {
+                                model: Country,
+                                as: "country",
+                                attributes: { exclude: ["createdAt", "updatedAt"] }
+
+                            }
+                        ]
                     }
                 ]
             },
@@ -159,11 +190,27 @@ const filterHistoryService = async (date, userId) => {
                         model: Airport,
                         as: "originAirport",
                         attributes: { exclude: ["createdAt", "updatedAt"] },
+                        include: [
+                            {
+                                model: Country,
+                                as: "country",
+                                attributes: { exclude: ["createdAt", "updatedAt"] }
+
+                            }
+                        ]
                     },
                     {
                         model: Airport,
                         as: "destinationAirport",
                         attributes: { exclude: ["createdAt", "updatedAt"] },
+                        include: [
+                            {
+                                model: Country,
+                                as: "country",
+                                attributes: { exclude: ["createdAt", "updatedAt"] }
+
+                            }
+                        ]
                     }
                 ]
             },
