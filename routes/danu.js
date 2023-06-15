@@ -3,6 +3,7 @@ const router = Router()
 
 const { ticketController } = require("../controller/ticket")
 
-router.post("/ticket", ticketController)
+router.get("/schedule", ticketController.getAllSchedule)
+router.get("/schedule/:id/ticket", ticketController.getTicketBySchedule)
 
 module.exports = router
