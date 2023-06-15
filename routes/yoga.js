@@ -13,5 +13,6 @@ router.post("/auth/resend-otp", registerController.otpResend)
 router.get("/order/history", authMiddleware, historyController.getAllHistoryOrders)
 router.get("/order/historysearch", authMiddleware, historyController.searchHistoryOrders)
 router.get("/order/historyfilter", authMiddleware, historyController.filterHistoryOrders)
+router.get("/order/history/passenger", authMiddleware, historyController.getPassenger)
 
 module.exports = router

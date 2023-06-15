@@ -1,4 +1,4 @@
-const { Detail_Order, Order, Schedule, User, Plane, Airport, Airline, Class, Country } = require("../../models")
+const { Detail_Order, Order, Schedule, User, Plane, Airport, Airline, Class, Country, Detail_Passenger } = require("../../models")
 
 const historyOrderService = async (userId) => {
     const data = Detail_Order.findAll({
@@ -65,6 +65,30 @@ const historyOrderService = async (userId) => {
 
                             }
                         ]
+                    }
+                ]
+            },
+        ]
+    })
+    return data
+}
+
+const historyPassenger = async (userId, orderId) => {
+    const data = Detail_Passenger.findAll({
+        where: { orderId: orderId },
+        attributes: { exclude: ["createdAt", "updatedAt"] },
+        include: [
+            {
+                model: Order,
+                as: "order",
+                where: { userId: userId },
+                attributes: { exclude: ["createdAt", "updatedAt"] },
+                include: [
+                    {
+                        model: User,
+                        as: "user",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+
                     }
                 ]
             },
@@ -219,4 +243,4 @@ const filterHistoryService = async (date, userId) => {
     return data
 }
 
-module.exports = { historyOrderService, searchHistoryService, filterHistoryService }
+module.exports = { historyOrderService, searchHistoryService, filterHistoryService, historyPassenger }

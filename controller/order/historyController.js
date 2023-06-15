@@ -1,4 +1,4 @@
-const { historyOrderService, searchHistoryService, filterHistoryService } = require("../../service/order/historyService")
+const { historyOrderService, searchHistoryService, filterHistoryService, historyPassenger } = require("../../service/order/historyService")
 const jwt = require("jsonwebtoken")
 
 module.exports = class historyController {
@@ -16,6 +16,23 @@ module.exports = class historyController {
         }
         res.status(200).json({
             orders
+        })
+    }
+    static async getPassenger(req, res) {
+        const authheader = req.header("Authorization")
+        const tokenUser = authheader && authheader.split(" ")[1]
+        const decoded = jwt.decode(tokenUser, process.env.JWT_SECRET_KEY)
+        const userId = decoded.userId
+        const orderId = req.body.orderId
+        const passenger = await historyPassenger(userId, orderId)
+        if (passenger.length == 0) {
+            return res.status(400).json({
+                status: false,
+                message: "Passenger not found"
+            })
+        }
+        res.status(200).json({
+            passenger
         })
     }
     static async searchHistoryOrders(req, res) {
