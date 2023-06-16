@@ -2,7 +2,7 @@ const { Detail_Order, Order, Schedule, User, Plane, Airport, Airline, Class, seq
 
 const getAllSchedule = async () => {
     const data = Schedule.findAll({
-        attributes: { exclude: ["createdAt", "updatedAt", "planeId", "originAirportId", "destinationAirportId"] },
+        attributes: { exclude: ["createdAt", "updatedAt", "planeId", "originAirportId", "destinationAirportId", "babyPrice", "kidsPrice", "adultPrice"] },
         include: [
             {
                 model: Plane,
@@ -12,7 +12,7 @@ const getAllSchedule = async () => {
                     {
                         model: Class,
                         as: 'class',
-                        attributes: { exclude: ["createdAt", "updatedAt"] },
+                        attributes: { exclude: ["createdAt", "updatedAt", "id"] },
                     },
 
                 ]
@@ -20,12 +20,12 @@ const getAllSchedule = async () => {
             {
                 model: Airport,
                 as: "originAirport",
-                attributes: { exclude: ["createdAt", "upadateAt"] }
+                attributes: { exclude: ["createdAt", "updatedAt", "countryCode", "airportCode", "id"] }
             },
             {
                 model: Airport,
                 as: "destinationAirport",
-                attributes: { exclude: ["createdAt", "upadateAt"] }
+                attributes: { exclude: ["createdAt", "updatedAt", "countryCode", "airportCode", "id"] }
             },
         ]
     });
@@ -35,7 +35,7 @@ const getAllSchedule = async () => {
 const getTicketBySchedule = async (id) => {
     const data = Schedule.findByPk(id, {
         attributes: {
-            exclude: ["createdAt", "updatedAt", "originAirportId","destinationAirportId", "planeId"]
+            exclude: ["createdAt", "updatedAt", "originAirportId", "destinationAirportId", "planeId"]
         },
         include: [
             {
@@ -54,12 +54,12 @@ const getTicketBySchedule = async (id) => {
             {
                 model: Airport,
                 as: "originAirport",
-                attributes: { exclude: ["createdAt", "upadateAt"] }
+                attributes: { exclude: ["createdAt", "updatedAt"] }
             },
             {
                 model: Airport,
                 as: "destinationAirport",
-                attributes: { exclude: ["createdAt", "upadateAt"] }
+                attributes: { exclude: ["createdAt", "updatedAt"] }
             },
         ]
 
