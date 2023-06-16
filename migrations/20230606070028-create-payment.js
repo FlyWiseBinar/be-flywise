@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      payment_code: {
+      paymentCode: {
         type: Sequelize.STRING
       },
       orderId: {
@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       status: {
-				type: Sequelize.BOOLEAN
+				type: Sequelize.STRING
 			},
       createdAt: {
         allowNull: false,
