@@ -26,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
 		adultPrice: DataTypes.INTEGER,
 		kidsPrice: DataTypes.INTEGER,
 		babyPrice: DataTypes.INTEGER,
-		taxPrice: DataTypes.INTEGER
+		taxPrice: DataTypes.INTEGER,
+		available_seat: DataTypes.INTEGER
 	}, {
 		sequelize,
 		modelName: "Schedule",

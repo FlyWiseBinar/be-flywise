@@ -1,22 +1,50 @@
 const { ticketService } = require("../../service/ticket")
-const { getAllTicket } = ticketService
-const jwt = require("jsonwebtoken")
+const { getAllSchedule, getTicketBySchedule, searchScheduleMulti } = ticketService
+
 
 
 module.exports = class ticketController {
-    static async getAllTicket(req, res) {
-        const authheader = req.header("Authorization")
-        const tokenUser = authheader && authheader.split(" ")[1]
-        const decoded = jwt.decode(tokenUser, process.env.JWT_SECRET_KEY)
-        const ticket = await getAllTicket()
-        if (ticket.lenght == 0) {
+    static async getAllSchedule(req, res) {
+        const schedule = await getAllSchedule()
+        if (schedule.lenght == 0) {
             return res.status(400).json({
                 status: false,
-                message: "No Tickets"
+                message: "No Schedules"
             })
         } else {
             res.status(200).json({
+                schedule
+            })
+        }
+    }
+
+
+    static async getTicketBySchedule(req, res) {
+        const id = req.params.id
+        const ticket = await getTicketBySchedule(id)
+        if (ticket.length == 0) {
+            return res.status(400).json({
+                status: false,
+                message: 'no ticket'
+            })
+        } else {
+            return res.status(200).json({
                 ticket
+            })
+        }
+    }
+
+    static async searchScheduleMulti(req, res) {
+        // console.log('value'), departureDate;
+        const schedule = await searchScheduleMulti(req.query)
+        if (Array.isArray(schedule) && schedule.length > 0) {
+            return res.status(200).json({
+                schedule
+            })
+        } else {
+            return res.status(400).json({
+                status: false,
+                message: 'no schedule',
             })
         }
     }

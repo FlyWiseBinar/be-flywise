@@ -1,49 +1,137 @@
-const { Detail_Order, Order, Schedule, User, Plane, Airport, Airline, Class } = require("../../models");
+const { Detail_Order, Order, Schedule, User, Plane, Airport, Airline, Class, sequelize } = require("../../models");
+const { Op } = require('sequelize')
 
-const getAllTicket = async () => {
+const getAllSchedule = async () => {
     const data = Schedule.findAll({
-        attributes: { exclude: ["createdAt", "updatedAt"] },
+        attributes: { exclude: ["createdAt", "updatedAt", "planeId", "originAirportId", "destinationAirportId"] },
         include: [
             {
-                model: Schedule,
-                as: "schedule",
-                attributes: { exclude: ["createdAt", "updatedAt"] },
+                model: Plane,
+                as: "plane",
+                attributes: { exclude: ["createdAt", "updatedAt",] },
+                include: [
+                    {
+                        model: Class,
+                        as: 'class',
+                        attributes: { exclude: ["createdAt", "updatedAt", "id", "price"] },
+                    },
+
+                ]
+            },
+            {
+                model: Airport,
+                as: "originAirport",
+                attributes: { exclude: ["createdAt", "updatedAt", "countryCode", "airportCode", "id"] }
+            },
+            {
+                model: Airport,
+                as: "destinationAirport",
+                attributes: { exclude: ["createdAt", "updatedAt", "countryCode", "airportCode", "id"] }
+            },
+        ]
+    });
+    return data;
+};
+
+const getTicketBySchedule = async (id) => {
+    const data = Schedule.findByPk(id, {
+        attributes: {
+            exclude: ["createdAt", "updatedAt", "originAirportId", "destinationAirportId", "planeId"]
+        },
+        include: [
+            {
+                model: Plane,
+                as: "plane",
+                attributes: { exclude: ["createdAt", "updatedAt",] },
                 include: [
                     {
                         model: Class,
                         as: 'class',
                         attributes: { exclude: ["createdAt", "updatedAt"] },
                     },
-                    {
-                        model: Plane,
-                        as: "plane",
-                        attributes: { exclude: ["createdAt", "updatedAt"] },
-                    }
-                ]
-            }
-        ]
-    });
 
-    const tickets = await Promise.all(data.map(async (schedule) => {
-        const { plane } = schedule;
-        const planeData = await Plane.findByPk(plane.id, {
-            attributes: { exclude: ["createdAt", "updatedAt"] },
+                ]
+            },
+            {
+                model: Airport,
+                as: "originAirport",
+                attributes: { exclude: ["createdAt", "updatedAt"] }
+            },
+            {
+                model: Airport,
+                as: "destinationAirport",
+                attributes: { exclude: ["createdAt", "updatedAt"] }
+            },
+        ]
+
+    })
+
+    return data
+}
+
+const searchScheduleMulti = async (params) => {
+    const { departureDate, arrivedDate, originAirport, destinationAirport, classPlane } = params
+    console.log('data', params);
+
+    try {
+        const data = await Schedule.findAll({
+            attributes: {
+                exclude: ["createdAt", "updatedAt", "originAirportId", "destinationAirportId", "planeId"]
+            },
             include: [
                 {
-                    model: Airline,
-                    as: "airline",
+                    model: Plane,
+                    as: "plane",
+                    attributes: { exclude: ["createdAt", "updatedAt",] },
+                    include: [
+                        {
+                            model: Class,
+                            as: 'class',
+                            attributes: { exclude: ["createdAt", "updatedAt"] },
+                            where: {
+                                [Op.or]: [
+                                    { name: `${classPlane}` },
+                                ]
+                            }
+                        },
+
+                    ]
+                },
+                {
+                    model: Airport,
+                    as: "originAirport",
                     attributes: { exclude: ["createdAt", "updatedAt"] },
+                    where: {
+                        [Op.or]: [
+                            { city: `${originAirport}` },
+                        ]
+                    }
+                },
+                {
+                    model: Airport,
+                    as: "destinationAirport",
+                    attributes: { exclude: ["createdAt", "updatedAt"] },
+                    where: {
+                        [Op.or]: [
+                            { city: `${destinationAirport}` },
+                        ]
+                    }
                 },
             ],
-        });
-        const ticket = {
-            schedule,
-            plane: planeData,
-        };
-        return ticket;
-    }));
+            where: {
+                [Op.and]: [
+                    { departureDate: `${departureDate}` },
+                    { arrivedDate: `${arrivedDate}` },
+                ],
+                available_seat: { [Op.gte]: 2 }
+            }
+        })
+        return data
+    } catch (error) {
 
-    return tickets;
-};
+    }
 
-module.exports = { getAllTicket };
+
+}
+
+module.exports = { getAllSchedule, getTicketBySchedule, searchScheduleMulti };
