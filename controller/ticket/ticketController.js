@@ -1,5 +1,5 @@
 const { ticketService } = require("../../service/ticket")
-const { getAllSchedule, getTicketBySchedule, searchScheduleMulti } = ticketService
+const { getAllSchedule, getTicketBySchedule, searchScheduleMulti, getAllAirport } = ticketService
 
 
 
@@ -45,6 +45,16 @@ module.exports = class ticketController {
             return res.status(400).json({
                 status: false,
                 message: 'no schedule',
+            })
+        }
+    }
+
+    static async getAllAirport(req, res) {
+        const airport = await getAllAirport()
+        if (Array.isArray(airport) && airport.length > 0) {
+            return res.status(200).json({
+                message: "All Data Airport",
+                airport: airport
             })
         }
     }

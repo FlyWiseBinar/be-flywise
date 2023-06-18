@@ -9,14 +9,11 @@ const getAllSchedule = async () => {
                 model: Plane,
                 as: "plane",
                 attributes: { exclude: ["createdAt", "updatedAt",] },
-                include: [
-                    {
-                        model: Class,
-                        as: 'class',
-                        attributes: { exclude: ["createdAt", "updatedAt", "id", "price"] },
-                    },
-
-                ]
+            },
+            {
+                model: Class,
+                as: 'class',
+                attributes: { exclude: ["createdAt", "updatedAt", "id", "price"] },
             },
             {
                 model: Airport,
@@ -43,14 +40,16 @@ const getTicketBySchedule = async (id) => {
                 model: Plane,
                 as: "plane",
                 attributes: { exclude: ["createdAt", "updatedAt",] },
-                include: [
-                    {
-                        model: Class,
-                        as: 'class',
-                        attributes: { exclude: ["createdAt", "updatedAt"] },
-                    },
-
-                ]
+            },
+            {
+                model: Class,
+                as: 'class',
+                attributes: { exclude: ["createdAt", "updatedAt"] },
+                where: {
+                    [Op.or]: [
+                        { name: `${classPlane}` },
+                    ]
+                }
             },
             {
                 model: Airport,
@@ -83,19 +82,16 @@ const searchScheduleMulti = async (params) => {
                     model: Plane,
                     as: "plane",
                     attributes: { exclude: ["createdAt", "updatedAt",] },
-                    include: [
-                        {
-                            model: Class,
-                            as: 'class',
-                            attributes: { exclude: ["createdAt", "updatedAt"] },
-                            where: {
-                                [Op.or]: [
-                                    { name: `${classPlane}` },
-                                ]
-                            }
-                        },
-
-                    ]
+                },
+                {
+                    model: Class,
+                    as: 'class',
+                    attributes: { exclude: ["createdAt", "updatedAt"] },
+                    where: {
+                        [Op.or]: [
+                            { name: `${classPlane}` },
+                        ]
+                    }
                 },
                 {
                     model: Airport,
@@ -130,8 +126,13 @@ const searchScheduleMulti = async (params) => {
     } catch (error) {
 
     }
-
-
 }
 
-module.exports = { getAllSchedule, getTicketBySchedule, searchScheduleMulti };
+const getAllAirport = async () => {
+    const data = Airport.findAll({
+        attributes: { exclude: ["updatedAt", "createdAt"] }
+    })
+    return data
+}
+
+module.exports = { getAllSchedule, getTicketBySchedule, searchScheduleMulti, getAllAirport };
