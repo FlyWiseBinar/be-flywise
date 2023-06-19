@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			Schedule.belongsTo(models.Plane, {as: "plane", foreignKey: "planeId"})
+			Schedule.belongsTo(models.Class, {as: "class", foreignKey: "classId"})
 			Schedule.belongsTo(models.Airport, {as: "originAirport", foreignKey: "originAirportId"})
 			Schedule.belongsTo(models.Airport, {as: "destinationAirport", foreignKey: "destinationAirportId"})
 			Schedule.belongsTo(models.Class, {as:"class", foreignKey:"classId"})
@@ -29,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
 		kidsPrice: DataTypes.INTEGER,
 		babyPrice: DataTypes.INTEGER,
 		taxPrice: DataTypes.INTEGER,
-		availableSeat: DataTypes.INTEGER
+		available_seat: DataTypes.INTEGER,
+		classId: DataTypes.INTEGER
 	}, {
 		sequelize,
 		modelName: "Schedule",

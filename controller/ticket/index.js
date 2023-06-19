@@ -1,3 +1,3 @@
 const ticketController = require("./ticketController")
 
-module.exports = {ticketController}
+module.exports = { ticketController }
