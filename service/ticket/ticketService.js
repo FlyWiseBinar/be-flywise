@@ -64,7 +64,16 @@ const getTicketBySchedule = async (id) => {
 }
 
 const searchScheduleMulti = async (params) => {
-	const {departureDate, arrivedDate, originAirport, destinationAirport} = params
+	const {
+		departureDate,
+		arrivedDate,
+		originAirport,
+		destinationAirport,
+		price,
+		duration,
+		arrive,
+		departure
+	} = params
 	console.log('data', params);
 
 	try {
