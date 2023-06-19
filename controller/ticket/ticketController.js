@@ -50,7 +50,8 @@ module.exports = class ticketController {
     }
 
     static async getAllAirport(req, res) {
-        const airport = await getAllAirport()
+		console.log(req.query)
+        const airport = await getAllAirport(req.query.search)
         if (Array.isArray(airport) && airport.length > 0) {
             return res.status(200).json({
                 message: "All Data Airport",
