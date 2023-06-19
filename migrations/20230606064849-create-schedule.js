@@ -45,8 +45,9 @@ module.exports = {
       taxPrice: {
         type: Sequelize.INTEGER
       },
-      availableSeat: {
-        type: Sequelize.INTEGER
+      available_seat: {
+        type: Sequelize.INTEGER,
+		  defaultValue : 30
       },
       createdAt: {
         allowNull: false,

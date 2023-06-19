@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
 			Schedule.belongsTo(models.Class, {as: "class", foreignKey: "classId"})
 			Schedule.belongsTo(models.Airport, {as: "originAirport", foreignKey: "originAirportId"})
 			Schedule.belongsTo(models.Airport, {as: "destinationAirport", foreignKey: "destinationAirportId"})
-			Schedule.belongsTo(models.Class, {as:"class", foreignKey:"classId"})
 		}
 	}
 	Schedule.init({
@@ -31,7 +30,6 @@ module.exports = (sequelize, DataTypes) => {
 		babyPrice: DataTypes.INTEGER,
 		taxPrice: DataTypes.INTEGER,
 		available_seat: DataTypes.INTEGER,
-		classId: DataTypes.INTEGER
 	}, {
 		sequelize,
 		modelName: "Schedule",

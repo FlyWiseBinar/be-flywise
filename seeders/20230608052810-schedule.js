@@ -33,7 +33,7 @@ module.exports = {
           kidsPrice: getPercentagePrice(initialPrice, 30),
           babyPrice: getPercentagePrice(initialPrice, 10),
           taxPrice: getPercentagePrice(initialPrice, 3),
-          availableSeat: getRandomInt(10) * 10,
+          available_seat: getRandomInt(10) * 10,
           createdAt: new Date(),
           updatedAt: new Date(),
         });
