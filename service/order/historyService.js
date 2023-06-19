@@ -13,6 +13,12 @@ const historyOrderService = async (userId) => {
                     {
                         model: User,
                         as: "user",
+                        attributes: { exclude: ["createdAt", "updatedAt", "password"] },
+
+                    },
+                    {
+                        model: Detail_Passenger,
+                        as: "passengers",
                         attributes: { exclude: ["createdAt", "updatedAt"] },
 
                     }
@@ -31,11 +37,6 @@ const historyOrderService = async (userId) => {
                             {
                                 model: Airline,
                                 as: "airline",
-                                attributes: { exclude: ["createdAt", "updatedAt"] },
-                            },
-                            {
-                                model: Class,
-                                as: "class",
                                 attributes: { exclude: ["createdAt", "updatedAt"] },
                             },
                         ]
@@ -65,31 +66,12 @@ const historyOrderService = async (userId) => {
 
                             }
                         ]
-                    }
-                ]
-            },
-        ]
-    })
-    return data
-}
-
-const historyPassenger = async (userId, orderId) => {
-    const data = Detail_Passenger.findAll({
-        where: { orderId: orderId },
-        attributes: { exclude: ["createdAt", "updatedAt"] },
-        include: [
-            {
-                model: Order,
-                as: "order",
-                where: { userId: userId },
-                attributes: { exclude: ["createdAt", "updatedAt"] },
-                include: [
+                    },
                     {
-                        model: User,
-                        as: "user",
+                        model: Class,
+                        as: "class",
                         attributes: { exclude: ["createdAt", "updatedAt"] },
-
-                    }
+                    },
                 ]
             },
         ]
@@ -110,6 +92,12 @@ const searchHistoryService = async (orderCode, userId) => {
                     {
                         model: User,
                         as: "user",
+                        attributes: { exclude: ["createdAt", "updatedAt", "password"] },
+
+                    },
+                    {
+                        model: Detail_Passenger,
+                        as: "passengers",
                         attributes: { exclude: ["createdAt", "updatedAt"] },
 
                     }
@@ -128,11 +116,6 @@ const searchHistoryService = async (orderCode, userId) => {
                             {
                                 model: Airline,
                                 as: "airline",
-                                attributes: { exclude: ["createdAt", "updatedAt"] },
-                            },
-                            {
-                                model: Class,
-                                as: "class",
                                 attributes: { exclude: ["createdAt", "updatedAt"] },
                             },
                         ]
@@ -162,7 +145,12 @@ const searchHistoryService = async (orderCode, userId) => {
 
                             }
                         ]
-                    }
+                    },
+                    {
+                        model: Class,
+                        as: "class",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+                    },
                 ]
             },
         ]
@@ -182,6 +170,12 @@ const filterHistoryService = async (date, userId) => {
                     {
                         model: User,
                         as: "user",
+                        attributes: { exclude: ["createdAt", "updatedAt", "password"] },
+
+                    },
+                    {
+                        model: Detail_Passenger,
+                        as: "passengers",
                         attributes: { exclude: ["createdAt", "updatedAt"] },
 
                     }
@@ -203,11 +197,6 @@ const filterHistoryService = async (date, userId) => {
                                 as: "airline",
                                 attributes: { exclude: ["createdAt", "updatedAt"] },
                             },
-                            {
-                                model: Class,
-                                as: "class",
-                                attributes: { exclude: ["createdAt", "updatedAt"] },
-                            },
                         ]
                     },
                     {
@@ -235,7 +224,12 @@ const filterHistoryService = async (date, userId) => {
 
                             }
                         ]
-                    }
+                    },
+                    {
+                        model: Class,
+                        as: "class",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+                    },
                 ]
             },
         ]
@@ -243,4 +237,4 @@ const filterHistoryService = async (date, userId) => {
     return data
 }
 
-module.exports = { historyOrderService, searchHistoryService, filterHistoryService, historyPassenger }
+module.exports = { historyOrderService, searchHistoryService, filterHistoryService }
