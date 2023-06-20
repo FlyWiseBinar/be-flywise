@@ -49,8 +49,9 @@ module.exports = class ticketController {
         }
     }
 
+
     static async getAllAirport(req, res) {
-		console.log(req.query)
+        console.log(req.query)
         const airport = await getAllAirport(req.query.search)
         if (Array.isArray(airport) && airport.length > 0) {
             return res.status(200).json({
@@ -90,7 +91,7 @@ module.exports = class ticketController {
             })
         }
     }
-    
+
     static async getScheduleSortDeptEnd(req, res) {
         const schedule = await getScheduleSortDeptEnd()
         if (Array.isArray(schedule) && schedule.length > 0) {
@@ -100,7 +101,7 @@ module.exports = class ticketController {
             })
         }
     }
-    
+
     static async getScheduleShortest(req, res) {
         const schedule = await getScheduleShortest()
         if (Array.isArray(schedule) && schedule.length > 0) {
@@ -110,7 +111,7 @@ module.exports = class ticketController {
             })
         }
     }
-    
+
     static async getScheduleFavorite(req, res) {
         const schedule = await getScheduleFavorite()
         if (Array.isArray(schedule) && schedule.length > 0) {
