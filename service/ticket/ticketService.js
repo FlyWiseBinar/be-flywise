@@ -9,7 +9,7 @@ const searchScheduleMultiService = async (query) => {
 		destinationAirport,
 		order
 	} = query
-
+	console.log(query)
 	let whereConditions = {
 		available_seat: {[Op.gte]: 2}
 	}
@@ -67,9 +67,9 @@ const searchScheduleMultiService = async (query) => {
 					as: "originAirport",
 					attributes: {exclude: ["createdAt", "updatedAt"]},
 					where: originAirport ? {
-						[Op.iLike]: [
-							{city: `${originAirport}`},
-						]
+						city: {
+							[Op.iLike]: `${originAirport}`,
+						}
 					} : {}
 				},
 				{
@@ -77,9 +77,9 @@ const searchScheduleMultiService = async (query) => {
 					as: "destinationAirport",
 					attributes: {exclude: ["createdAt", "updatedAt"]},
 					where: destinationAirport ? {
-						[Op.iLike]: [
-							{city: `${destinationAirport}`},
-						]
+						city: {
+							[Op.iLike]: `${destinationAirport}`,
+						}
 					} : {}
 				},
 			],
@@ -88,7 +88,9 @@ const searchScheduleMultiService = async (query) => {
 		})
 		return data
 
-	} catch(error) {}
+	} catch(error) {
+		console.log(error)
+	}
 }
 
 const getAirportService = async (search) => {
