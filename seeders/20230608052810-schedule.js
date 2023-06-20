@@ -6,7 +6,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     let schedule = [];
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 100000; i++) {
       const randDate = randomDate(
         new Date("2023-06-01"),
         new Date("2023-06-30")
