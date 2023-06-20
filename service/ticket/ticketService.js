@@ -76,16 +76,19 @@ const searchScheduleMulti = async (params) => {
 	const orderOptions = []
 
 	if (order === 'price') {
-		orderOptions.push(['adultPrice', 'ASC'])
+		orderOptions.push(['provTotalPrice', 'ASC'])
 	} else if (order === 'arriveAsc') {
-		orderOptions.push(['arrivedDate', 'ASC'])
+		orderOptions.push(['arrivedDateTime', 'ASC'])
 	} else if (order === 'arriveDesc') {
-		orderOptions.push(['arrivedDate', 'DESC'])
+		orderOptions.push(['arrivedDateTime', 'DESC'])
 	} else if (order === 'departureAsc') {
-		orderOptions.push(['departureDate', 'ASC'])
+		orderOptions.push(['departureDateTime', 'ASC'])
 	} else if (order === 'departureDesc') {
-		orderOptions.push(['departureDate', 'DESC'])
+		orderOptions.push(['departureDateTime', 'DESC'])
+	} else if (order === 'duration') {
+		orderOptions.push(['durationInSecond', 'ASC'])
 	}
+
 	console.log('order opt', orderOptions);
 
 	try {
@@ -143,7 +146,7 @@ const searchScheduleMulti = async (params) => {
 	} catch (error) { }
 }
 
-const getAllAirport = async (search) => {
+const getAirportByName = async (search) => {
 	const data = Airport.findAll({
 		attributes: { exclude: ["updatedAt", "createdAt"] },
 		where: {
@@ -164,143 +167,6 @@ const getAllAirport = async (search) => {
 	return data
 }
 
-const getScheduleSortArriveBegin = async () => {
-	const data = Schedule.findAll({
-		attributes: { exclude: ["updatedAt", "createdAt", "classId", 'planeId', 'originAirportId', 'destinationAirportId'] },
-		order: [
-			["arrivedDate", "ASC"]
-		],
-		include: [
-			{
-				model: Plane,
-				as: "plane",
-				attributes: { exclude: ["createdAt", "updatedAt",] },
-			},
-			{
-				model: Class,
-				as: 'class',
-				attributes: { exclude: ["createdAt", "updatedAt", "id"] },
-			},
-			{
-				model: Airport,
-				as: "originAirport",
-				attributes: { exclude: ["createdAt", "updatedAt"] }
-			},
-			{
-				model: Airport,
-				as: "destinationAirport",
-				attributes: { exclude: ["createdAt", "updatedAt"] }
-			},
-		]
-	})
-	return data
-}
-
-const getScheduleSortArriveEnd = async () => {
-	const data = Schedule.findAll({
-		attributes: { exclude: ["updatedAt", "createdAt", "classId", 'planeId', 'originAirportId', 'destinationAirportId'] },
-		order: [
-			["arrivedDate", "DESC"]
-		],
-		include: [
-			{
-				model: Plane,
-				as: "plane",
-				attributes: { exclude: ["createdAt", "updatedAt",] },
-			},
-			{
-				model: Class,
-				as: 'class',
-				attributes: { exclude: ["createdAt", "updatedAt", "id"] },
-			},
-			{
-				model: Airport,
-				as: "originAirport",
-				attributes: { exclude: ["createdAt", "updatedAt"] }
-			},
-			{
-				model: Airport,
-				as: "destinationAirport",
-				attributes: { exclude: ["createdAt", "updatedAt"] }
-			},
-		]
-	})
-	return data
-}
-
-const getScheduleSortDeptBegin = async () => {
-	const data = Schedule.findAll({
-		attributes: { exclude: ["updatedAt", "createdAt", "classId", 'planeId', 'originAirportId', 'destinationAirportId'] },
-		order: [
-			["departureDate", "ASC"]
-		],
-		include: [
-			{
-				model: Plane,
-				as: "plane",
-				attributes: { exclude: ["createdAt", "updatedAt",] },
-			},
-			{
-				model: Class,
-				as: 'class',
-				attributes: { exclude: ["createdAt", "updatedAt", "id"] },
-			},
-			{
-				model: Airport,
-				as: "originAirport",
-				attributes: { exclude: ["createdAt", "updatedAt"] }
-			},
-			{
-				model: Airport,
-				as: "destinationAirport",
-				attributes: { exclude: ["createdAt", "updatedAt"] }
-			},
-		]
-	})
-	return data
-}
-
-const getScheduleSortDeptEnd = async () => {
-	const data = Schedule.findAll({
-		attributes: { exclude: ["updatedAt", "createdAt", "classId", 'planeId', 'originAirportId', 'destinationAirportId'] },
-		order: [
-			["departureDate", "DESC"]
-		],
-		include: [
-			{
-				model: Plane,
-				as: "plane",
-				attributes: { exclude: ["createdAt", "updatedAt",] },
-			},
-			{
-				model: Class,
-				as: 'class',
-				attributes: { exclude: ["createdAt", "updatedAt", "id"] },
-			},
-			{
-				model: Airport,
-				as: "originAirport",
-				attributes: { exclude: ["createdAt", "updatedAt"] }
-			},
-			{
-				model: Airport,
-				as: "destinationAirport",
-				attributes: { exclude: ["createdAt", "updatedAt"] }
-			},
-		]
-	})
-	return data
-}
-
-const getScheduleShortest = async () => {
-	const data = Schedule.findAll({
-		attributes: { exclude: ["updatedAt", "createdAt"] },
-		date: {
-			[Op.between]: [startOfDay(parseISO())]
-		}
-	})
-	return data
-}
 
 const getScheduleFavorite = async () => {
 	const data = Schedule.findAll({
@@ -335,4 +201,4 @@ const getScheduleFavorite = async () => {
 	return data
 }
 
-module.exports = { getAllSchedule, getTicketBySchedule, searchScheduleMulti, getAllAirport, getScheduleSortArriveBegin, getScheduleSortArriveEnd, getScheduleSortDeptBegin, getScheduleSortDeptEnd, getScheduleShortest, getScheduleFavorite };
+module.exports = { getAllSchedule, getTicketBySchedule, searchScheduleMulti, getAirportByName, getScheduleFavorite };
