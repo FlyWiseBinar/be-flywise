@@ -33,6 +33,12 @@ module.exports = {
       arrivedTime: {
         type: Sequelize.TIME
       },
+      departureDateTime: {
+        type: Sequelize.DATE
+      },
+      arrivedDateTime: {
+        type: Sequelize.DATE
+      },
       adultPrice: {
         type: Sequelize.INTEGER
       },
@@ -47,7 +53,13 @@ module.exports = {
       },
       available_seat: {
         type: Sequelize.INTEGER,
-		  defaultValue : 30
+        defaultValue: 30
+      },
+      provTotalPrice: {
+        type: Sequelize.INTEGER
+      },
+      durationInSecond: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
