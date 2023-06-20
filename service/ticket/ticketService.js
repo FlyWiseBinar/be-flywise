@@ -13,23 +13,23 @@ const searchScheduleMultiService = async (query) => {
 	let whereConditions = {
 		available_seat: {[Op.gte]: 2}
 	}
-	if (departureDate && arrivedDate) {
+	if(departureDate && arrivedDate) {
 		whereConditions = {
-		  ...whereConditions,
-		  departureDate: departureDate,
-		  arrivedDate: arrivedDate
+			...whereConditions,
+			departureDate: departureDate,
+			arrivedDate: arrivedDate
 		};
-	 } else if (departureDate) {
+	} else if(departureDate) {
 		whereConditions = {
-		  ...whereConditions,
-		  departureDate: departureDate
+			...whereConditions,
+			departureDate: departureDate
 		};
-	 } else if (arrivedDate) {
+	} else if(arrivedDate) {
 		whereConditions = {
-		  ...whereConditions,
-		  arrivedDate: arrivedDate
+			...whereConditions,
+			arrivedDate: arrivedDate
 		};
-	 }
+	}
 
 	const orderOptions = []
 	if(order === 'price') {
@@ -98,12 +98,12 @@ const getAirportService = async (search) => {
 			[Op.or]: [
 				{
 					city: {
-						[Op.iLike]: `${search}`
+						[Op.iLike]: `%${search}%`
 					}
 				},
 				{
 					airportCode: {
-						[Op.iLike]: `${search}`
+						[Op.iLike]: `%${search}%`
 					}
 				}
 			]
@@ -145,4 +145,8 @@ const getScheduleFavoriteService = async () => {
 	return data
 }
 
-module.exports = {searchScheduleMultiService, getAirportService, getScheduleFavoriteService};
+module.exports = {
+	searchScheduleMultiService,
+	getAirportService,
+	getScheduleFavoriteService
+}
