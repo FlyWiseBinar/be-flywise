@@ -158,7 +158,7 @@ const searchHistoryService = async (orderCode, userId) => {
     return data
 }
 const filterHistoryService = async (date, userId) => {
-    const data = Detail_Order.findOne({
+    const data = Detail_Order.findAll({
         attributes: { exclude: ["createdAt", "updatedAt"] },
         include: [
             {
