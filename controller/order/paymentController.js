@@ -14,7 +14,7 @@ module.exports = class paymentController {
       });
     }
 
-    paymentService.sendInvoiceMail(email, payment);
+    await paymentService.sendInvoiceMail(email, payment);
 
     return res.status(201).json({
       status: true,
@@ -48,7 +48,7 @@ module.exports = class paymentController {
 
     const payment = await paymentService.createPayment(orderId, paymentTypeId);
 
-    paymentService.sendInvoiceMail(email, payment);
+    await paymentService.sendInvoiceMail(email, payment);
 
     return res.status(201).json({
       status: true,
