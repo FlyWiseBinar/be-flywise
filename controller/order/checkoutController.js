@@ -2,11 +2,11 @@ const {checkOutService} = require("../../service/order")
 
 module.exports = class checkoutController {
     static async makeOrder (req, res) {
-        const { price, schedule, passenger } = req.body
+        const { schedule, passenger } = req.body
         const userId = req.user.id;
 
         try{
-            const order = await checkOutService(userId, price, schedule, passenger)
+            const order = await checkOutService(userId, schedule, passenger)
 
             return res.status(200).json({
                 status: true,
