@@ -88,7 +88,13 @@ const sendInvoiceMail = async (email, payment) => {
     html: template,
   };
 
-  await transporter.sendMail(mailOptions);
+  await transporter.sendMail(mailOptions, function (err, info) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Email terkirim: " + info.response);
+    }
+  });
 };
 
 const generatePaymentCode = () => {
@@ -113,5 +119,5 @@ module.exports = {
   sendInvoiceMail,
   getPaymentByOrderId,
   updateStatusPayment,
-  findOneOrder
+  findOneOrder,
 };
