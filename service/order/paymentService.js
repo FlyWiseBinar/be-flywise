@@ -88,7 +88,7 @@ const sendInvoiceMail = async (email, payment) => {
     html: template,
   };
 
-  await transporter.sendMail(mailOptions, function (err, info) {
+  transporter.sendMail(mailOptions, function (err, info) {
     if (err) {
       console.log(err);
     } else {
