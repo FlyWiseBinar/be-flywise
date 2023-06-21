@@ -1,11 +1,27 @@
 const {ticketService} = require("../../service/ticket")
 const {
+	findScheduleService,
 	searchScheduleMultiService,
 	getAirportService,
 	getScheduleFavoriteService
 } = ticketService
 
 module.exports = class ticketController {
+	static async findSchedule(req, res) {
+		const schedule = await findScheduleService(req.params.id)
+		if(schedule) {
+			return res.status(200).json({
+				statue: true,
+				message: 'data schedule',
+				data: schedule
+			})
+		} else {
+			return res.status(400).json({
+				status: false,
+				message: 'schedule not found',
+			})
+		}
+	}
 	static async searchScheduleMulti(req, res) {
 		const schedule = await searchScheduleMultiService(req.query)
 		if(Array.isArray(schedule) && schedule.length > 0) {

@@ -1,6 +1,35 @@
 const {Schedule, Plane, Airport, Class} = require("../../models");
 const {Op} = require('sequelize')
 
+const findScheduleService = async (id) => {
+	const data = Schedule.findByPk(id,{
+		attributes: { exclude: ["createdAt", "updatedAt", "planeId", "originAirportId", "destinationAirportId", "classId"] },
+		include: [
+			{
+				model: Plane,
+				as: "plane",
+				attributes: { exclude: ["createdAt", "updatedAt",] },
+			},
+			{
+				model: Class,
+				as: 'class',
+				attributes: { exclude: ["createdAt", "updatedAt", "id"] },
+			},
+			{
+				model: Airport,
+				as: "originAirport",
+				attributes: { exclude: ["createdAt", "updatedAt", "countryCode", "airportCode", "id"] }
+			},
+			{
+				model: Airport,
+				as: "destinationAirport",
+				attributes: { exclude: ["createdAt", "updatedAt", "countryCode", "airportCode", "id"] }
+			},
+		]
+	});
+	return data;
+};
+
 const searchScheduleMultiService = async (query) => {
 	const {
 		departureDate,
@@ -148,6 +177,7 @@ const getScheduleFavoriteService = async () => {
 }
 
 module.exports = {
+	findScheduleService,
 	searchScheduleMultiService,
 	getAirportService,
 	getScheduleFavoriteService
