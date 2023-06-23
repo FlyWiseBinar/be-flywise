@@ -399,7 +399,7 @@ const makeTemplatePayment = (data) => {
                     "
                     >
                     <a
-                        href="http://localhost:5000/v1/api/order/pay-payment?paymentCode=${paymentCode}"
+                        href="https://be-flywise-stagging-jcbxz3zpbq-as.a.run.app/v1/api/order/pay-payment?paymentCode=${paymentCode}"
                         style="color: #fff; text-decoration: none" 
                         target="_SEJ" rel="noreferrer"
                     >
