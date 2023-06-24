@@ -36,13 +36,13 @@ module.exports = class historyController {
         })
     }
     static async filterHistoryOrders(req, res) {
+        const { startDate, endDate } = req.query
         const authheader = req.header("Authorization")
         const tokenUser = authheader && authheader.split(" ")[1]
         const decoded = jwt.decode(tokenUser, process.env.JWT_SECRET_KEY)
-        const date = req.query.date
         const userId = decoded.userId
-        const orders = await filterHistoryService(date, userId)
-        if (!orders) {
+        const orders = await filterHistoryService(startDate, endDate, userId)
+        if (orders == 0) {
             return res.status(400).json({
                 status: false,
                 message: "Order not found"

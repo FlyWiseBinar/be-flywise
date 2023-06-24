@@ -1,4 +1,5 @@
-const { Detail_Order, Order, Schedule, User, Plane, Airport, Airline, Class, Country, Detail_Passenger } = require("../../models")
+const { Detail_Order, Order, Schedule, User, Plane, Airport, Airline, Class, Country, Detail_Passenger, Payment } = require("../../models")
+const { eachDayOfInterval } = require("date-fns")
 
 const historyOrderService = async (userId) => {
     const data = Detail_Order.findAll({
@@ -19,6 +20,12 @@ const historyOrderService = async (userId) => {
                     {
                         model: Detail_Passenger,
                         as: "passengers",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+
+                    },
+                    {
+                        model: Payment,
+                        as: "payment",
                         attributes: { exclude: ["createdAt", "updatedAt"] },
 
                     }
@@ -100,6 +107,12 @@ const searchHistoryService = async (orderCode, userId) => {
                         as: "passengers",
                         attributes: { exclude: ["createdAt", "updatedAt"] },
 
+                    },
+                    {
+                        model: Payment,
+                        as: "payment",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+
                     }
                 ]
             },
@@ -157,7 +170,10 @@ const searchHistoryService = async (orderCode, userId) => {
     })
     return data
 }
-const filterHistoryService = async (date, userId) => {
+const filterHistoryService = async (startDate, endDate, userId) => {
+    const start = new Date(startDate)
+    const end = new Date(endDate)
+    const date = eachDayOfInterval({ start: start, end: end })
     const data = Detail_Order.findAll({
         attributes: { exclude: ["createdAt", "updatedAt"] },
         include: [
@@ -176,6 +192,12 @@ const filterHistoryService = async (date, userId) => {
                     {
                         model: Detail_Passenger,
                         as: "passengers",
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+
+                    },
+                    {
+                        model: Payment,
+                        as: "payment",
                         attributes: { exclude: ["createdAt", "updatedAt"] },
 
                     }
@@ -235,6 +257,7 @@ const filterHistoryService = async (date, userId) => {
         ]
     })
     return data
+
 }
 
 module.exports = { historyOrderService, searchHistoryService, filterHistoryService }
