@@ -25,7 +25,7 @@ module.exports = class historyController {
         const orderCode = req.query.orderCode
         const userId = decoded.userId
         const orders = await searchHistoryService(orderCode, userId)
-        if (!orders) {
+        if (orders.length == 0) {
             return res.status(400).json({
                 status: false,
                 message: "Order not found"
@@ -42,7 +42,7 @@ module.exports = class historyController {
         const decoded = jwt.decode(tokenUser, process.env.JWT_SECRET_KEY)
         const userId = decoded.userId
         const orders = await filterHistoryService(startDate, endDate, userId)
-        if (orders == 0) {
+        if (orders.length == 0) {
             return res.status(400).json({
                 status: false,
                 message: "Order not found"
