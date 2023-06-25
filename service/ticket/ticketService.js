@@ -9,6 +9,13 @@ const findScheduleService = async (id) => {
 				model: Plane,
 				as: "plane",
 				attributes: { exclude: ["createdAt", "updatedAt",] },
+				include: [
+					{
+						model: Airline,
+						as: "airline",
+						attributes: { exclude: ["createdAt", "updatedAt",] },
+					}
+				]
 			},
 			{
 				model: Class,
@@ -85,6 +92,13 @@ const searchScheduleMultiService = async (query) => {
 					model: Plane,
 					as: "plane",
 					attributes: { exclude: ["createdAt", "updatedAt",] },
+					include: [
+						{
+							model: Airline,
+							as: "airline",
+							attributes: { exclude: ["createdAt", "updatedAt",] },
+						}
+					]
 				},
 				{
 					model: Class,
