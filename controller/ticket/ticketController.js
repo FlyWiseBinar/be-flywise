@@ -43,7 +43,7 @@ module.exports = class ticketController {
 		const airport = await getAirportService(req.query.search)
 		if(Array.isArray(airport) && airport.length > 0) {
 			return res.status(200).json({
-				statue:true,
+				statue: true,
 				message: "list all airport data",
 				data: airport
 			})
@@ -56,10 +56,12 @@ module.exports = class ticketController {
 	}
 
 	static async getScheduleFavorite(req, res) {
-		const schedule = await getScheduleFavoriteService()
+		console.log(req.query.continent)
+		const continent = req.query.continent || null
+		const schedule = await getScheduleFavoriteService(continent)
 		if(Array.isArray(schedule) && schedule.length > 0) {
 			return res.status(200).json({
-				status:true,
+				status: true,
 				message: "all data favorite schedule",
 				data: schedule
 			})
