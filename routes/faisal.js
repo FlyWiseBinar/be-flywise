@@ -14,6 +14,6 @@ router.post("/order/checkout", authMiddleware, checkoutController.makeOrder)
 router.post("/order/payment", authMiddleware, paymentController.createPayment)
 router.post("/order/send-payment-invoice", authMiddleware, paymentController.getPaymentInvoice)
 router.get("/order/pay-payment", paymentController.confirmPayment)
-router.put("/order/cancel-payment", paymentController.cancelPayment)
+router.put("/order/cancel-payment", authMiddleware, paymentController.cancelPayment)
 
 module.exports = router
