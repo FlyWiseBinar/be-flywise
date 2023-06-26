@@ -1,4 +1,4 @@
-const { Payment, Order } = require("../../models");
+const { Payment, Order, Schedule } = require("../../models");
 const nodemailer = require("nodemailer");
 const { makeTemplatePayment } = require("../../helper/emailTemplate");
 
@@ -27,7 +27,7 @@ const createPayment = async (orderId, paymentTypeId) => {
 };
 
 const findOneOrder = async (id) => {
-  const data = Order.findOne({
+  const data = await Order.findOne({
     where: {
       id,
     },
@@ -35,8 +35,8 @@ const findOneOrder = async (id) => {
   return data;
 };
 
-const findOnePayment = async (id) => {
-  const data = Payment.findOne({
+const findOnePaymentAll = async (id) => {
+  const data = await Payment.findOne({
     where: {
       id,
     },
@@ -45,27 +45,33 @@ const findOnePayment = async (id) => {
   return data;
 };
 
-const updateStatusPayment = async (code) => {
-  try {
-    const data = Payment.update(
-      {
-        status: "Issued",
+const findOnePayment = async (code) => {
+  const data = await Payment.findOne({
+    where: {
+      paymentCode: code,
+    },
+  });
+  return data;
+};
+
+const updateStatusPayment = async (code, status) => {
+  const data = await Payment.update(
+    {
+      status: status,
+    },
+    {
+      where: {
+        paymentCode: code,
       },
-      {
-        where: {
-          paymentCode: code,
-        },
-      }
-    );
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
+      returning: true,
+    }
+  );
+  return data[1];
 };
 
 const getPaymentByOrderId = async (id) => {
   try {
-    const data = Payment.findOne({
+    const data = await Payment.findOne({
       where: {
         orderId: id,
       },
@@ -77,7 +83,7 @@ const getPaymentByOrderId = async (id) => {
 };
 
 const sendInvoiceMail = async (email, payment) => {
-  const data = await findOnePayment(payment.id);
+  const data = await findOnePaymentAll(payment.id);
 
   const template = makeTemplatePayment(data.toJSON());
 
@@ -113,6 +119,29 @@ const generatePaymentCode = () => {
   return result;
 };
 
+const updateAvailSeatSchedule = async (PaymentId) => {
+  const data = await findOnePaymentAll(PaymentId);
+  const schedule = data.order.schedules;
+  const passenger = data.order.passengers.length;
+
+  
+
+  for (let i = 0; i < schedule.length; i++) {
+    await Schedule.update(
+      {
+        available_seat: schedule[i].schedule.available_seat + passenger,
+      },
+      {
+        where: {
+          id: schedule[i].schedule.id,
+        },
+      }
+    );
+  }
+
+  return;
+};
+
 module.exports = {
   createPayment,
   findOnePayment,
@@ -120,4 +149,5 @@ module.exports = {
   getPaymentByOrderId,
   updateStatusPayment,
   findOneOrder,
+  updateAvailSeatSchedule,
 };
