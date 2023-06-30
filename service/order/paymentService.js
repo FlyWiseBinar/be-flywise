@@ -1,4 +1,4 @@
-const { Payment, Order, Schedule } = require("../../models");
+const { Payment, Order, Schedule, Payment_Type } = require("../../models");
 const nodemailer = require("nodemailer");
 const { makeTemplatePayment } = require("../../helper/emailTemplate");
 
@@ -13,17 +13,47 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const createPayment = async (orderId, paymentTypeId) => {
+const createPayment = async (orderId) => {
   const paymentCode = generatePaymentCode();
 
   const payment = await Payment.create({
     paymentCode: paymentCode,
     orderId: orderId,
-    paymentTypeId: paymentTypeId,
     status: "Unpaid",
   });
 
   return payment;
+};
+
+const updatePaymentMethod = async (code, paymentMethode) => {
+  const data = await Payment.update(
+    {
+      paymentTypeId : paymentMethode
+    },
+    {
+      where : {
+        paymentCode: code
+      },
+      returning: true
+    }
+  )
+
+  return data[1][0].toJSON()
+}
+
+const updateStatusPayment = async (code, status) => {
+  const data = await Payment.update(
+    {
+      status: status,
+    },
+    {
+      where: {
+        paymentCode: code,
+      },
+      returning: true,
+    }
+  );
+  return data[1];
 };
 
 const findOneOrder = async (id) => {
@@ -54,20 +84,15 @@ const findOnePayment = async (code) => {
   return data;
 };
 
-const updateStatusPayment = async (code, status) => {
-  const data = await Payment.update(
-    {
-      status: status,
-    },
-    {
-      where: {
-        paymentCode: code,
-      },
-      returning: true,
+const getPaymentTypeAll = async () => {
+  const data = await Payment_Type.findAll({
+    attributes: {
+      exclude : ["createdAt","updatedAt"]
     }
-  );
-  return data[1];
-};
+  });
+
+  return data;
+}
 
 const getPaymentByOrderId = async (id) => {
   try {
@@ -150,4 +175,6 @@ module.exports = {
   updateStatusPayment,
   findOneOrder,
   updateAvailSeatSchedule,
+  updatePaymentMethod,
+  getPaymentTypeAll
 };

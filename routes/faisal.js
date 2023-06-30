@@ -11,7 +11,8 @@ router.delete("/auth/delete-account", whoAmIController.delete)
 
 router.post("/order/checkout", authMiddleware, checkoutController.makeOrder)
 
-router.post("/order/payment", authMiddleware, paymentController.createPayment)
+router.get("/order/payment-type", paymentController.getPaymentType)
+router.post("/order/payment", authMiddleware, paymentController.updatePaymentType)
 router.post("/order/send-payment-invoice", authMiddleware, paymentController.getPaymentInvoice)
 router.get("/order/pay-payment", paymentController.confirmPayment)
 router.put("/order/cancel-payment", authMiddleware, paymentController.cancelPayment)

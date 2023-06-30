@@ -25,28 +25,18 @@ module.exports = class paymentController {
     });
   }
 
-  static async createPayment(req, res) {
-    const { orderId, paymentTypeId } = req.body;
+  static async updatePaymentType(req, res) {
+    const { paymentCode, paymentTypeId } = req.body;
     const email = req.user.email;
 
-    if (!(await paymentService.findOneOrder(orderId))) {
+    if (!(await paymentService.findOnePayment(paymentCode))) {
       return res.status(400).json({
         status: false,
-        message: "Order could not be found",
+        message: "Payment could not be found",
       });
     }
 
-    const history = await paymentService.getPaymentByOrderId(orderId);
-
-    if (history) {
-      return res.status(400).json({
-        status: false,
-        message: "Payment already created",
-        data: history,
-      });
-    }
-
-    const payment = await paymentService.createPayment(orderId, paymentTypeId);
+    const payment = await paymentService.updatePaymentMethod(paymentCode, paymentTypeId);
 
     await paymentService.sendInvoiceMail(email, payment);
 
@@ -57,7 +47,16 @@ module.exports = class paymentController {
     });
   }
 
-  static getPaymentMethod(req, res) {}
+  static async getPaymentType(req, res) {
+    const data = await paymentService.getPaymentTypeAll();
+
+    return res.status(200).json({
+      status: true,
+      message: "List Payment Type",
+      data: data,
+    })
+
+  }
 
   static async confirmPayment(req, res) {
     const { paymentCode } = req.query;
@@ -75,7 +74,6 @@ module.exports = class paymentController {
 
     const history = await paymentService.findOnePayment(paymentCode);
 
-    console.log(history.status);
     if (history.status == "Cancelled") {
       return res.status(400).json({
         status: true,
