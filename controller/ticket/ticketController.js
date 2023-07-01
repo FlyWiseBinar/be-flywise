@@ -1,4 +1,4 @@
-const {ticketService} = require("../../service/ticket")
+const { ticketService } = require("../../service/ticket")
 const {
 	findScheduleService,
 	searchScheduleMultiService,
@@ -9,7 +9,7 @@ const {
 module.exports = class ticketController {
 	static async findSchedule(req, res) {
 		const schedule = await findScheduleService(req.params.id)
-		if(schedule) {
+		if (schedule) {
 			return res.status(200).json({
 				statue: true,
 				message: 'data schedule',
@@ -24,7 +24,7 @@ module.exports = class ticketController {
 	}
 	static async searchScheduleMulti(req, res) {
 		const schedule = await searchScheduleMultiService(req.query)
-		if(Array.isArray(schedule) && schedule.length > 0) {
+		if (Array.isArray(schedule)) {
 			return res.status(200).json({
 				statue: true,
 				message: 'list all schedule search results',
@@ -41,7 +41,7 @@ module.exports = class ticketController {
 	static async getAirportByName(req, res) {
 		console.log(req.query)
 		const airport = await getAirportService(req.query.search)
-		if(Array.isArray(airport) && airport.length > 0) {
+		if (Array.isArray(airport) && airport.length > 0) {
 			return res.status(200).json({
 				statue: true,
 				message: "list all airport data",
@@ -59,7 +59,7 @@ module.exports = class ticketController {
 		console.log(req.query.continent)
 		const continent = req.query.continent || null
 		const schedule = await getScheduleFavoriteService(continent)
-		if(Array.isArray(schedule) && schedule.length > 0) {
+		if (Array.isArray(schedule) && schedule.length > 0) {
 			return res.status(200).json({
 				status: true,
 				message: "all data favorite schedule",
