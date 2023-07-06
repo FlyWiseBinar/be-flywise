@@ -1,36 +1,36 @@
-const { Schedule, Plane, Airport, Class, Airline, Country } = require("../../models");
-const { Op } = require('sequelize')
+const {Schedule, Plane, Airport, Class, Airline, Country} = require("../../models");
+const {Op} = require('sequelize')
 
 const findScheduleService = async (id) => {
 	const data = Schedule.findByPk(id, {
-		attributes: { exclude: ["createdAt", "updatedAt", "planeId", "originAirportId", "destinationAirportId", "classId"] },
+		attributes: {exclude: ["createdAt", "updatedAt", "planeId", "originAirportId", "destinationAirportId", "classId"]},
 		include: [
 			{
 				model: Plane,
 				as: "plane",
-				attributes: { exclude: ["createdAt", "updatedAt",] },
+				attributes: {exclude: ["createdAt", "updatedAt",]},
 				include: [
 					{
 						model: Airline,
 						as: "airline",
-						attributes: { exclude: ["createdAt", "updatedAt",] },
+						attributes: {exclude: ["createdAt", "updatedAt",]},
 					}
 				]
 			},
 			{
 				model: Class,
 				as: 'class',
-				attributes: { exclude: ["createdAt", "updatedAt", "id"] },
+				attributes: {exclude: ["createdAt", "updatedAt", "id"]},
 			},
 			{
 				model: Airport,
 				as: "originAirport",
-				attributes: { exclude: ["createdAt", "updatedAt", "countryCode", "airportCode", "id"] }
+				attributes: {exclude: ["createdAt", "updatedAt", "countryCode", "airportCode", "id"]}
 			},
 			{
 				model: Airport,
 				as: "destinationAirport",
-				attributes: { exclude: ["createdAt", "updatedAt", "countryCode", "airportCode", "id"] }
+				attributes: {exclude: ["createdAt", "updatedAt", "countryCode", "airportCode", "id"]}
 			},
 		]
 	});
@@ -43,24 +43,31 @@ const searchScheduleMultiService = async (query) => {
 		arrivedDate,
 		originAirport,
 		destinationAirport,
+		seatClassId,
 		order
 	} = query
 	console.log(query)
 	let whereConditions = {
-		available_seat: { [Op.gte]: 2 }
+		available_seat: {[Op.gte]: 2}
 	}
-	if (departureDate && arrivedDate) {
+	if(seatClassId) {
+		whereConditions = {
+			...whereConditions,
+			classId: seatClassId
+		}
+	}
+	if(departureDate && arrivedDate) {
 		whereConditions = {
 			...whereConditions,
 			departureDate: departureDate,
 			arrivedDate: arrivedDate
 		};
-	} else if (departureDate) {
+	} else if(departureDate) {
 		whereConditions = {
 			...whereConditions,
 			departureDate: departureDate
 		};
-	} else if (arrivedDate) {
+	} else if(arrivedDate) {
 		whereConditions = {
 			...whereConditions,
 			arrivedDate: arrivedDate
@@ -68,17 +75,17 @@ const searchScheduleMultiService = async (query) => {
 	}
 
 	const orderOptions = []
-	if (order === 'price') {
+	if(order === 'price') {
 		orderOptions.push(['provTotalPrice', 'ASC'])
-	} else if (order === 'arriveAsc') {
+	} else if(order === 'arriveAsc') {
 		orderOptions.push(['arrivedDateTime', 'ASC'])
-	} else if (order === 'arriveDesc') {
+	} else if(order === 'arriveDesc') {
 		orderOptions.push(['arrivedDateTime', 'DESC'])
-	} else if (order === 'departureAsc') {
+	} else if(order === 'departureAsc') {
 		orderOptions.push(['departureDateTime', 'ASC'])
-	} else if (order === 'departureDesc') {
+	} else if(order === 'departureDesc') {
 		orderOptions.push(['departureDateTime', 'DESC'])
-	} else if (order === 'duration') {
+	} else if(order === 'duration') {
 		orderOptions.push(['durationInSecond', 'ASC'])
 	}
 
@@ -91,24 +98,24 @@ const searchScheduleMultiService = async (query) => {
 			{
 				model: Plane,
 				as: "plane",
-				attributes: { exclude: ["createdAt", "updatedAt",] },
+				attributes: {exclude: ["createdAt", "updatedAt",]},
 				include: [
 					{
 						model: Airline,
 						as: "airline",
-						attributes: { exclude: ["createdAt", "updatedAt",] },
+						attributes: {exclude: ["createdAt", "updatedAt",]},
 					}
 				]
 			},
 			{
 				model: Class,
 				as: 'class',
-				attributes: { exclude: ["createdAt", "updatedAt", "id"] },
+				attributes: {exclude: ["createdAt", "updatedAt", "id"]},
 			},
 			{
 				model: Airport,
 				as: "originAirport",
-				attributes: { exclude: ["createdAt", "updatedAt"] },
+				attributes: {exclude: ["createdAt", "updatedAt"]},
 				where: originAirport ? {
 					city: {
 						[Op.iLike]: `${originAirport}`,
@@ -118,7 +125,7 @@ const searchScheduleMultiService = async (query) => {
 			{
 				model: Airport,
 				as: "destinationAirport",
-				attributes: { exclude: ["createdAt", "updatedAt"] },
+				attributes: {exclude: ["createdAt", "updatedAt"]},
 				where: destinationAirport ? {
 					city: {
 						[Op.iLike]: `${destinationAirport}`,
@@ -136,7 +143,7 @@ const searchScheduleMultiService = async (query) => {
 
 const getAirportService = async (search) => {
 	const data = Airport.findAll({
-		attributes: { exclude: ["updatedAt", "createdAt"] },
+		attributes: {exclude: ["updatedAt", "createdAt"]},
 		where: {
 			[Op.or]: [
 				{
@@ -157,7 +164,7 @@ const getAirportService = async (search) => {
 
 const getScheduleFavoriteService = async (continent) => {
 	const data = Schedule.findAll({
-		attributes: { exclude: ["updatedAt", "createdAt", "classId", 'planeId', 'originAirportId', 'destinationAirportId'] },
+		attributes: {exclude: ["updatedAt", "createdAt", "classId", 'planeId', 'originAirportId', 'destinationAirportId']},
 		limit: 10,
 		order: [
 			["updatedAt", "ASC"]
@@ -171,19 +178,19 @@ const getScheduleFavoriteService = async (continent) => {
 			{
 				model: Plane,
 				as: "plane",
-				attributes: { exclude: ["createdAt", "updatedAt",] },
+				attributes: {exclude: ["createdAt", "updatedAt",]},
 				include: [
 					{
 						model: Airline,
 						as: "airline",
-						attributes: { exclude: ["createdAt", "updatedAt",] },
+						attributes: {exclude: ["createdAt", "updatedAt",]},
 					}
 				]
 			},
 			{
 				model: Class,
 				as: 'class',
-				attributes: { exclude: ["createdAt", "updatedAt", "id"] },
+				attributes: {exclude: ["createdAt", "updatedAt", "id"]},
 			},
 			{
 				model: Airport,
@@ -192,20 +199,20 @@ const getScheduleFavoriteService = async (continent) => {
 					{
 						model: Country,
 						as: "country",
-						attributes: { exclude: ["createdAt", "updatedAt",] },
+						attributes: {exclude: ["createdAt", "updatedAt",]},
 					}
 				],
-				attributes: { exclude: ["createdAt", "updatedAt"] }
+				attributes: {exclude: ["createdAt", "updatedAt"]}
 			},
 			{
 				model: Airport,
 				as: "destinationAirport",
-				attributes: { exclude: ["createdAt", "updatedAt"] },
+				attributes: {exclude: ["createdAt", "updatedAt"]},
 				include: [
 					{
 						model: Country,
 						as: "country",
-						attributes: { exclude: ["createdAt", "updatedAt",] },
+						attributes: {exclude: ["createdAt", "updatedAt",]},
 					}
 				],
 			},
