@@ -8,8 +8,8 @@ module.exports = {
 
     for (let i = 0; i < 100000; i++) {
       const randDate = randomDate(
-        new Date("2023-06-01"),
-        new Date("2023-06-30")
+        new Date("2023-08-10"),
+        new Date("2023-08-13")
       )
       let planeId = getRandomInt(600)
       let originAirportId = getRandomInt(604)
