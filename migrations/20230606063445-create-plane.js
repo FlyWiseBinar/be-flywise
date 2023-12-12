@@ -12,9 +12,6 @@ module.exports = {
       airlineId: {
         type: Sequelize.INTEGER
       },
-      classId: {
-        type: Sequelize.INTEGER
-      },
       baggageMaxCapacity: {
         type: Sequelize.INTEGER
       },

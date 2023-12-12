@@ -25,7 +25,15 @@ const sendMail = async (to) => {
 		from: "flywisebinar@gmail.com",
 		to,
 		subject: "FlyWise",
-		html: `kode otp kamu adalah<b> ${otp}</b>, gunakan untuk mereset password`
+		html: `
+				<div class="container" style="max-width: 90%; margin: auto; padding-top: 20px">
+					<h2>Reset Password FlyWise Account.</h2>
+					<h4>One more step to reset your password ✔</h4>
+					<p style="margin-bottom: 30px;">Please enter the OTP to reset password your account</p>
+					<h1 style="font-size: 40px; letter-spacing: 2px; text-align:center;">${otp}</h1>
+					<p style="margin-top:50px;">If you do not request for verification please do not respond to the mail.</p>
+				</div> 
+  			`
 	}
 
 	try {

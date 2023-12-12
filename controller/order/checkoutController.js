@@ -1,38 +1,33 @@
 const {checkOutService} = require("../../service/order")
+const {paymentService} = require("../../service/order")
 
 module.exports = class checkoutController {
-	static async scheduleDetail (req, res) {
-        const scheduleID = req.body.scheduleId;
-        const data = await checkOutService.getSchedule(scheduleID)
-        
-        if(!data){
-            return res.status(400).json({
-                status: false,
-                message: "Schedule Data Not Found"
-            })
-        }
-        
-        res.status(200).json({
-            status: true,
-            message: "Schedule data has been successfully retrieved",
-            data: data
-        })
-    }
-
     static async makeOrder (req, res) {
-        const { price, schedule, passenger } = req.body
+        const { schedule, passenger } = req.body
+        const userId = req.user.id;
 
-        const authHeader = req.header("Authorization");
-        const tokenUser = authHeader.split(" ")[1];
-        const decoded = jwt.verify(tokenUser, process.env.JWT_SECRET_TOKEN);
-        const userId = decoded.userId;
+        try{
+            const order = await checkOutService(userId, schedule, passenger)
 
-        const order = await checkOutService.createOrder(userId, price, schedule, passenger)
+            const payment = await paymentService.createPayment(order.id);
 
-        res.status(200).json({
-            status: true,
-            message: "Order has been created succesfully",
-            data: order
-        })
+            const data = {
+                ...order,
+                payment
+            }
+
+            return res.status(200).json({
+                status: true,
+                message: "Order has been created succesfully",
+                data: data
+            })
+        }catch(error){
+            return res.status(500).json({
+				status: false,
+				message: "internal server error"
+			})
+        }
+
+        
     }
 }

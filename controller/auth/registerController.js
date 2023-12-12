@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const {
 	otpSendService,
 	otpResendService,
@@ -9,7 +8,7 @@ const {
 module.exports = class registerController {
 	static async register(req, res) {
 		const user = await registerService(req.body)
-		if(user) {
+		if (user) {
 			return res.status(201).json({
 				status: true,
 				message: "the user has successfully registered",
@@ -24,32 +23,32 @@ module.exports = class registerController {
 		}
 	}
 	static async otpSend(req, res) {
-		const {email} = req.body
+		const { email } = req.body
 		try {
 			const result = await otpSendService(email)
 			return res.status(200).json(result)
-		} catch(error) {
-			return res.status(400).json({message: error.message})
+		} catch (error) {
+			return res.status(400).json({ message: error.message })
 		}
 	}
 
 	static async otpVerify(req, res) {
-		const {email, otp} = req.body
+		const { email, otp } = req.body
 		try {
 			const result = await otpVerifyService(email, otp)
 			return res.status(200).json(result)
-		} catch(error) {
-			return res.status(400).json({message: error.message})
+		} catch (error) {
+			return res.status(400).json({ message: error.message })
 		}
 	}
 
 	static async otpResend(req, res) {
-		const {email} = req.body
+		const { email } = req.body
 		try {
 			const result = await otpResendService(email)
 			return res.status(200).json(result)
-		} catch(error) {
-			return res.status(400).json({message: error.message})
+		} catch (error) {
+			return res.status(400).json({ message: error.message })
 		}
 	}
 }

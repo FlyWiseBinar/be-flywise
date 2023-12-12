@@ -22,6 +22,15 @@ module.exports = {
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			},
+			{
+				email: "faisalmaulanaputra@gmail.com",
+				telephone: "0812345678902",
+				password: bcrypt.hashSync("password", 10),
+				fullName: "Faisal Maulana",
+				status: false,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			},
 		]
 
 		await queryInterface.bulkInsert("Users", user, {})

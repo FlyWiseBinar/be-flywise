@@ -11,12 +11,10 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			Plane.belongsTo(models.Airline, {as: "airline", foreignKey: "airlineId"})
-			Plane.belongsTo(models.Class, {as: "class", foreignKey: "classId"})
 		}
 	}
 	Plane.init({
 		airlineId: DataTypes.INTEGER,
-		classId: DataTypes.INTEGER,
 		baggageMaxCapacity: DataTypes.INTEGER,
 		cabinMaxCapacity: DataTypes.INTEGER,
 		passengerCapacity: DataTypes.INTEGER

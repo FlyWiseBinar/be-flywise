@@ -1,12 +1,12 @@
-const {loginService} = require("../../service/auth")
+const { loginService } = require("../../service/auth")
 const jwt = require("jsonwebtoken")
 
 module.exports = class loginController {
 	static async login(req, res) {
-		const {email, password} = req.body
+		const { email, password } = req.body
 		try {
 			const user = await loginService(email, password)
-			if(!user) {
+			if (!user) {
 				return res.status(400).json({
 					errors: [
 						{
@@ -28,7 +28,7 @@ module.exports = class loginController {
 				accessToken,
 				expiredAt: "10 days"
 			})
-		} catch(error) {
+		} catch (error) {
 			return res.status(500).json({
 				status: false,
 				message: "internal server error"

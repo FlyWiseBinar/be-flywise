@@ -1,18 +1,29 @@
-const { whoamiService } = require("../../service/auth");
+const { whoamiService } = require("../../service/auth")
+const { User } = require("../../models")
 
 module.exports = class whoAmIController {
   static async whoAmI(req, res) {
-    const authHeader = req.header("Authorization");
-    const tokenUser = authHeader.split(" ")[1];
-
-    const decoded = jwt.verify(tokenUser, process.env.JWT_SECRET_TOKEN);
-    const userId = decoded.userId;
-    const data = whoamiService.whoamiService(userId);
+    const userId = req.user.id
+    const data = await whoamiService(userId)
 
     res.status(200).json({
       status: true,
       message: "User data has been successfully retrieved",
       data: data,
-    });
+    })
   }
-};
+
+  static async delete(req,res) {
+    const {email} = req.body
+
+    await User.destroy({
+      where : {
+        email : email
+      }
+    })
+
+    res.status(200).json({
+      msg: `User ${email} has been deleted`
+    })
+  }
+}

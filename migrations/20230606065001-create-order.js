@@ -12,6 +12,9 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER
       },
+      orderCode: {
+        type: Sequelize.STRING
+      },
       totalPrice: {
         type: Sequelize.INTEGER
       },

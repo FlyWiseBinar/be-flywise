@@ -2,6 +2,73 @@
 
 /** @type {import('sequelize-cli').Migration} */
 
+module.exports = {
+  async up(queryInterface, Sequelize) {
+    let schedule = [];
+
+    for (let i = 0; i < 100000; i++) {
+      const randDate = randomDate(
+        new Date("2023-08-10"),
+        new Date("2023-08-13")
+      )
+      let planeId = getRandomInt(600)
+      let originAirportId = getRandomInt(604)
+      let destinationAirportId = getRandomInt(604)
+
+      const randDepartureDate = randDate;
+      let randArriveDateMax = new Date(randDepartureDate);
+      randArriveDateMax.setDate(randArriveDateMax.getDate() + 2);
+      const randArriveDate = randomDate(randDepartureDate, randArriveDateMax);
+
+      let arrivedDate = getDateOnly(randArriveDate.addHours(getRandomInt(9)));
+      let arrivedTime = getTimeOnly(randArriveDate);
+      let departureDate = getDateOnly(randDepartureDate);
+      let departureTime = getTimeOnly(randDepartureDate);
+
+      let arrivedDateTime = new Date(arrivedDate + ' ' + arrivedTime);
+      let departureDateTime = new Date(departureDate + ' ' + departureTime);
+      let durationInSecond = Math.floor((arrivedDateTime - departureDateTime) / 1000);
+
+      for (let j = 0; j < 3; j++) {
+        const kelas = getClassPercen(j);
+        const initialPrice = getClassPrice(kelas.minPercen, kelas.maxPercen);
+
+        let adultPrice = getPercentagePrice(initialPrice, 100)
+        let kidsPrice = getPercentagePrice(initialPrice, 30)
+        let babyPrice = getPercentagePrice(initialPrice, 10)
+        let taxPrice = getPercentagePrice(initialPrice, 3)
+
+        schedule.push({
+          classId: j + 1,
+          planeId: planeId,
+          originAirportId: originAirportId,
+          destinationAirportId: destinationAirportId,
+          departureDate: departureDate,
+          departureTime: departureTime,
+          arrivedDate: arrivedDate,
+          arrivedTime: arrivedTime,
+          departureDateTime: departureDateTime,
+          arrivedDateTime: arrivedDateTime,
+          adultPrice: adultPrice,
+          kidsPrice: kidsPrice,
+          babyPrice: babyPrice,
+          taxPrice: taxPrice,
+          available_seat: getRandomInt(10) * 10,
+          provTotalPrice: adultPrice + kidsPrice + babyPrice + taxPrice,
+          durationInSecond: durationInSecond,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+      }
+    }
+    await queryInterface.bulkInsert("Schedules", schedule, {});
+  },
+
+  async down(queryInterface, Sequelize) {
+    await queryInterface.bulkDelete("Schedules", null, {});
+  },
+};
+
 function randomDate(start, end) {
   const minValue = start.getTime();
   const maxValue = end.getTime();
@@ -32,37 +99,32 @@ function getRandomRange(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-function getPlane() {
-  const planeId = getRandomInt(600);
-
-  var props;
-  if (planeId <= 300) {
-    props = {
-      planeID: planeId,
+function getClassPercen(index) {
+  const props = [
+    {
+      classId: 1,
       minPercen: 6,
       maxPercen: 13,
-    };
-  } else if (planeId > 300 && planeId <= 550) {
-    props = {
-      planeID: planeId,
+    },
+    {
+      classId: 2,
       minPercen: 23,
       maxPercen: 54,
-    };
-  } else {
-    props = {
-      planeID: planeId,
+    },
+    {
+      classId: 3,
       minPercen: 90,
-      maxPercen: 120,
-    };
-  }
+      maxPercen: 110,
+    },
+  ];
 
-  return props;
+  return props[index];
 }
 
 function getClassPrice(minPercen, maxPercen) {
-  var initialPrice = 13000000;
+  let initialPrice = 13000000;
 
-  var randomnumber = getRandomRange(minPercen, maxPercen);
+  let randomnumber = getRandomRange(minPercen, maxPercen);
 
   return (Math.floor(randomnumber) / 100) * initialPrice;
 }
@@ -71,41 +133,3 @@ function getPercentagePrice(price, percentage) {
   return (percentage / 100) * price;
 }
 
-module.exports = {
-  async up(queryInterface, Sequelize) {
-    var schedule = [];
-
-    for (let i = 0; i < 1000; i++) {
-      const randDate = randomDate(
-        new Date("2023-06-01"),
-        new Date("2023-06-30")
-      );
-
-      const plane = getPlane();
-
-      const initialPrice = getClassPrice(plane.minPercen, plane.maxPercen);
-
-      schedule.push({
-        planeId: plane.planeID,
-        originAirportId: getRandomInt(604),
-        destinationAirportId: getRandomInt(604),
-        departureDate: getDateOnly(randDate),
-        departureTime: getTimeOnly(randDate),
-        arrivedDate: getDateOnly(randDate.addHours(getRandomInt(9))),
-        arrivedTime: getTimeOnly(randDate),
-        adultPrice: getPercentagePrice(initialPrice, 100),
-        kidsPrice: getPercentagePrice(initialPrice, 30),
-        babyPrice: getPercentagePrice(initialPrice, 10),
-        taxPrice: getPercentagePrice(initialPrice, 3),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
-    }
-
-    await queryInterface.bulkInsert("Schedules", schedule, {});
-  },
-
-  async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("Schedules", null, {});
-  },
-};

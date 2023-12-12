@@ -10,12 +10,14 @@ module.exports = (sequelize, DataTypes) => {
 		 * The `models/index` file will call this method automatically.
 		 */
 		static associate(models) {
-			Schedule.belongsTo(models.Plane, {as: "plane", foreignKey: "planeId"})
-			Schedule.belongsTo(models.Airport, {as: "originAirport", foreignKey: "originAirportId"})
-			Schedule.belongsTo(models.Airport, {as: "destinationAirport", foreignKey: "destinationAirportId"})
+			Schedule.belongsTo(models.Plane, { as: "plane", foreignKey: "planeId" })
+			Schedule.belongsTo(models.Class, { as: "class", foreignKey: "classId" })
+			Schedule.belongsTo(models.Airport, { as: "originAirport", foreignKey: "originAirportId" })
+			Schedule.belongsTo(models.Airport, { as: "destinationAirport", foreignKey: "destinationAirportId" })
 		}
 	}
 	Schedule.init({
+		classId: DataTypes.INTEGER,
 		planeId: DataTypes.INTEGER,
 		originAirportId: DataTypes.INTEGER,
 		destinationAirportId: DataTypes.INTEGER,
@@ -23,10 +25,15 @@ module.exports = (sequelize, DataTypes) => {
 		arrivedDate: DataTypes.DATEONLY,
 		departureTime: DataTypes.TIME,
 		arrivedTime: DataTypes.TIME,
+		departureDateTime: DataTypes.DATE,
+		arrivedDateTime: DataTypes.DATE,
 		adultPrice: DataTypes.INTEGER,
 		kidsPrice: DataTypes.INTEGER,
 		babyPrice: DataTypes.INTEGER,
-		taxPrice: DataTypes.INTEGER
+		taxPrice: DataTypes.INTEGER,
+		available_seat: DataTypes.INTEGER,
+		provTotalPrice: DataTypes.INTEGER,
+		durationInSecond: DataTypes.INTEGER,
 	}, {
 		sequelize,
 		modelName: "Schedule",

@@ -9,6 +9,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      classId: {
+        type: Sequelize.INTEGER
+      },
       planeId: {
         type: Sequelize.INTEGER
       },
@@ -30,6 +33,12 @@ module.exports = {
       arrivedTime: {
         type: Sequelize.TIME
       },
+      departureDateTime: {
+        type: Sequelize.DATE
+      },
+      arrivedDateTime: {
+        type: Sequelize.DATE
+      },
       adultPrice: {
         type: Sequelize.INTEGER
       },
@@ -40,6 +49,16 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       taxPrice: {
+        type: Sequelize.INTEGER
+      },
+      available_seat: {
+        type: Sequelize.INTEGER,
+        defaultValue: 30
+      },
+      provTotalPrice: {
+        type: Sequelize.INTEGER
+      },
+      durationInSecond: {
         type: Sequelize.INTEGER
       },
       createdAt: {

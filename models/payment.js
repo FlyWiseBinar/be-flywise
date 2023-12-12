@@ -15,9 +15,10 @@ module.exports = (sequelize, DataTypes) => {
 		}
 	}
 	Payment.init({
-		payment_code: DataTypes.STRING,
+		paymentCode: DataTypes.STRING,
 		orderId: DataTypes.INTEGER,
-		paymentTypeId: DataTypes.INTEGER
+		paymentTypeId: DataTypes.INTEGER,
+		status: DataTypes.STRING
 	}, {
 		sequelize,
 		modelName: "Payment",
